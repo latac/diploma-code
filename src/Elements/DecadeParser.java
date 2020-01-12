@@ -1,7 +1,7 @@
 package Elements;
 
-public class DayParser {
-    public String createSaveQuery(Day article) {
+public class DecadeParser {
+    public String createSaveQuery(Decade article) {
         String query = "";
 
         /**
@@ -10,24 +10,24 @@ public class DayParser {
          * przez bazę danych.
          * INSERT INTO articles VALUES (NULL, 'title', 'text');
          */
-        return "insert into `day` VALUES (null, ?)";
+        return "insert into `decade` VALUES (null, ?)";
 
     }
 
     public String pobierzWszystkie() {
-        return "select * from `day`";
+        return "select * from `decade`";
     }
 
     public String pobierzJeden() {
-        return "select * from `day` where id = ?";
+        return "select * from `decade` where id = ?";
     }
 
     public String Usun() {
-        return "delete from `day` where id = ?";
+        return "delete from `decade` where id = ?";
     }
 
 
     public String Edytuj() {
-        return "update `day` SET VALUES name = ? where id = ?";
+        return "update `decade` SET VALUES name = ? where id = ?";
     }
 }

@@ -1,14 +1,14 @@
 package data;
 
 
-import Elements.Day;
-import Elements.DayParser;
+import Elements.Decade;
+import Elements.DecadeParser;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DayDatabase {DataConnector connector;
+public class DecadeDatabase {DataConnector connector;
 
     //obiekt tworzący połączenie z bazą danych.
     private Connection connection;
@@ -16,13 +16,13 @@ public class DayDatabase {DataConnector connector;
     private PreparedStatement statement;
     //zapytanie SQL
     private String query;
-    public DayDatabase(DataConnector connector) {
+    public DecadeDatabase(DataConnector connector) {
         this.connector = connector;
     }
 
-    public Day PobierzDzien(int id) {
-        String query = new DayParser().pobierzJeden();
-        Day pobranyDzien = new Day();
+    public Decade PobierzDekade(int id) {
+        String query = new DecadeParser().pobierzJeden();
+        Decade pobranaDekada = new Decade();
         try {
             Class.forName(connector.DBDRIVER).newInstance();
             connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
@@ -33,8 +33,8 @@ public class DayDatabase {DataConnector connector;
 
             while (result.next()) {
                 // Get the values from the current row...
-                pobranyDzien.setId(result.getInt(1));
-                pobranyDzien.setName(result.getString(2));
+                pobranaDekada.setId(result.getInt(1));
+                pobranaDekada.setName(result.getString(2));
 
             }
             //zwolnienie zasobów i zamknięcie połączenia
@@ -45,12 +45,12 @@ public class DayDatabase {DataConnector connector;
             e.printStackTrace();
         }
 
-        return pobranyDzien;
+        return pobranaDekada;
     }
 
-    public List<Day> PobierzDni() {
-        String query = new DayParser().pobierzWszystkie();
-        List<Day> lista = new ArrayList<>();
+    public List<Decade> PobierzDni() {
+        String query = new DecadeParser().pobierzWszystkie();
+        List<Decade> lista = new ArrayList<>();
 
         try {
             Class.forName(connector.DBDRIVER).newInstance();
@@ -59,13 +59,13 @@ public class DayDatabase {DataConnector connector;
 
             ResultSet result = statement.executeQuery(query);
 
-            Day pobranyDzien;
+            Decade pobranaDekada;
             while (result.next()) {
-                pobranyDzien = new Day();
+                pobranaDekada = new Decade();
                 // Get the values from the current row...
-                pobranyDzien.setId(result.getInt(1));
-                pobranyDzien.setName(result.getString(2));
-                lista.add(pobranyDzien);
+                pobranaDekada.setId(result.getInt(1));
+                pobranaDekada.setName(result.getString(2));
+                lista.add(pobranaDekada);
             }
             //zwolnienie zasobów i zamknięcie połączenia
             statement.close();
@@ -78,15 +78,15 @@ public class DayDatabase {DataConnector connector;
         return lista;
     }
 
-    public boolean UtworzDzien(Day dzien) {
-        String query = new DayParser().createSaveQuery(dzien);
+    public boolean UtworzDekade(Decade dekada) {
+        String query = new DecadeParser().createSaveQuery(dekada);
         boolean wynik = false;
 
         try {
             Class.forName(connector.DBDRIVER).newInstance();
             connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
             statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, dzien.getName());
+            statement.setString(1, dekada.getName());
             int result = statement.executeUpdate();
             if(result == 1)
             {
@@ -96,7 +96,7 @@ public class DayDatabase {DataConnector connector;
                     candidateId = rs.getInt(1);
                     wynik = true;
                 }
-                dzien.setId(candidateId);
+                dekada.setId(candidateId);
             }
 
             //zwolnienie zasobów i zamknięcie połączenia
@@ -111,8 +111,8 @@ public class DayDatabase {DataConnector connector;
     }
 
     public boolean Usun(int id) {
-        String query = new DayParser().Usun();
-        List<Day> lista = new ArrayList<>();
+        String query = new DecadeParser().Usun();
+        List<Decade> lista = new ArrayList<>();
         boolean result = false;
 
         try {
@@ -138,9 +138,9 @@ public class DayDatabase {DataConnector connector;
         return result;
     }
 
-    public boolean Edytuj(Day dzien) {
-        String query = new DayParser().Edytuj();
-        List<Day> lista = new ArrayList<>();
+    public boolean Edytuj(Decade dekada) {
+        String query = new DecadeParser().Edytuj();
+        List<Decade> lista = new ArrayList<>();
         boolean wynik = false;
 
         try {
@@ -148,8 +148,8 @@ public class DayDatabase {DataConnector connector;
             connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
             statement = connection.prepareStatement(query);
 
-            statement.setString(1, dzien.getName());
-            statement.setInt(2, dzien.getId());
+            statement.setString(1, dekada.getName());
+            statement.setInt(2, dekada.getId());
 
             int result = statement.executeUpdate();
             if(result == 1)
@@ -160,7 +160,7 @@ public class DayDatabase {DataConnector connector;
                     candidateId = rs.getInt(1);
                     wynik = true;
                 }
-                dzien.setId(candidateId);
+                dekada.setId(candidateId);
             }
 
             //zwolnienie zasobów i zamknięcie połączenia

@@ -1,5 +1,7 @@
 package data;
 
+import Elements.Decade;
+
 public class DataConnector {
     public final static String DBURL = "jdbc:mysql://127.0.0.1:3306/dieta";
     public final static String DBUSER = "root";
@@ -30,5 +32,13 @@ public class DataConnector {
 
     public MealDatabase Meal() {
         return new MealDatabase(this);
+    }
+
+    public DayDatabase Day() {
+        return new DayDatabase(this);
+    }
+
+    public DecadeDatabase Decade() {
+        return new DecadeDatabase(this);
     }
 }
