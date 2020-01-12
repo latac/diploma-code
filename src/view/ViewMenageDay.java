@@ -1,6 +1,8 @@
 package view;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ViewMenageDay extends JFrame{
     private JPanel panel;
@@ -21,7 +23,7 @@ public class ViewMenageDay extends JFrame{
     public ViewMenageDay() {
         super("Danie");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setBounds(100, 100, 1400, 600);
+        setBounds(100, 100, 1000, 600);
         setVisible(true);
 
         panel = new JPanel();
@@ -107,6 +109,12 @@ public class ViewMenageDay extends JFrame{
     private void przyciskWroc() {
         wroc = new JButton("wróć");
         wroc.setBounds(400, 200, 100, 25);
+        wroc.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
         panel.add(wroc);
     }
 

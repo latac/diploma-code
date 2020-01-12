@@ -1,6 +1,11 @@
 package view;
 
+import Elements.Product;
+
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DateFormatSymbols;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -15,6 +20,8 @@ public class ViewMenageMain extends JFrame {
     private JButton posilek;
     private JButton organizacja;
     private JButton zapisz;
+    private JButton poprzedniMiesiac;
+    private JButton nastepnyMiesiac;
     private JLabel kcal;
     private JLabel weglowodany;
     private JLabel bialka;
@@ -26,18 +33,19 @@ public class ViewMenageMain extends JFrame {
     private JLabel piatek;
     private JLabel sobota;
     private JLabel niedziela;
+    private JLabel wyswietlanyMiesiac;
     private ArrayList<JButton> miesiac;
 
     Date aktualnaData;
 
     public ViewMenageMain() {
-        super("Przypisanie jednostki organizacyjnej");
+        super("Jadłospis");
 
         aktualnaData = new Date();
         miesiac = new ArrayList<>();
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setBounds(100, 100, 1400, 600);
+        setBounds(100, 100, 850, 600);
         setVisible(true);
 
         panel = new JPanel();
@@ -52,24 +60,34 @@ public class ViewMenageMain extends JFrame {
         wierszBialka();
         wierszTluszczy();
         wierszWeglowodanow();
-        przyciskiDni();
         wierszNazwDni();
+        wierszZmianyMiesiaca();
+        przyciskiDni();
 
 
         panel.updateUI();
-
-
-        WybierzNastepnyMiesiac();
     }
 
     private void przyciskProdukt() {
         produkt = new JButton("produkt");
         produkt.setBounds(0, 0, 100, 25);
+        produkt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ViewMenageProduct().setVisible(true);
+            }
+        });
         panel.add(produkt);
     }
     private void przyciskDanie(){
         danie = new JButton("danie");
         danie.setBounds(100, 0, 100, 25);
+        danie.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ViewMenageDish().setVisible(true);
+            }
+        });
         panel.add(danie);
 
     }
@@ -78,6 +96,12 @@ public class ViewMenageMain extends JFrame {
     private void przyciskPosilek(){
         posilek = new JButton("posiłek");
         posilek.setBounds(200, 0, 100, 25);
+        posilek.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ViewMenageMeal().setVisible(true);
+            }
+        });
         panel.add(posilek);
 
     }
@@ -85,6 +109,12 @@ public class ViewMenageMain extends JFrame {
     private void przyciskOrganizacji(){
         organizacja = new JButton("Organizacyjna");
         organizacja.setBounds(400, 0, 150, 25);
+        organizacja.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ViewMenageWorker().setVisible(true);
+            }
+        });
         panel.add(organizacja);
 
     }
@@ -159,6 +189,40 @@ public class ViewMenageMain extends JFrame {
         kalendarz.add(Calendar.MONTH, 1);
         aktualnaData = kalendarz.getTime();
         przyciskiDni();
+
+    }
+    private void WybierzPoprzedniMiesiac() {
+        Calendar kalendarz = Calendar.getInstance();
+        kalendarz.setTime(aktualnaData);
+        kalendarz.add(Calendar.MONTH, -1);
+        aktualnaData = kalendarz.getTime();
+        przyciskiDni();
+
+    }
+    private void wierszZmianyMiesiaca(){
+        wyswietlanyMiesiac = new JLabel("miesiac");
+        wyswietlanyMiesiac.setBounds(500,50,50,25);
+        panel.add(wyswietlanyMiesiac);
+
+        poprzedniMiesiac = new JButton("<");
+        poprzedniMiesiac.setBounds(450, 50, 45, 25);
+        poprzedniMiesiac.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                WybierzPoprzedniMiesiac();
+            }
+        });
+        panel.add(poprzedniMiesiac);
+
+        nastepnyMiesiac = new JButton(">");
+        nastepnyMiesiac.setBounds(560, 50, 45, 25);
+        nastepnyMiesiac.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                WybierzNastepnyMiesiac();
+            }
+        });
+        panel.add(nastepnyMiesiac);
     }
 
     private void przyciskiDni(){
@@ -171,6 +235,19 @@ public class ViewMenageMain extends JFrame {
 
         Calendar kalendarz = Calendar.getInstance();
         kalendarz.setTime(new Date(aktualnaData.getYear(), wybranyMiesiacLiczba, 0));
+
+
+        String month = "wrong";
+        DateFormatSymbols dfs = new DateFormatSymbols();
+        String[] months = dfs.getMonths();
+        if (wybranyMiesiacLiczba >= 0 && wybranyMiesiacLiczba <= 11 ) {
+            month = months[wybranyMiesiacLiczba];
+        }
+
+        wyswietlanyMiesiac.setText(month);
+        // tutaj zmień tekst "miesiąc"
+        // odśwież ten layout
+
         int dzienTygodnia = kalendarz.get(Calendar.DAY_OF_WEEK) - 1;
         int przesuniecie = 0;
         int prawidlowyNumerDnia = 0;
@@ -197,11 +274,16 @@ public class ViewMenageMain extends JFrame {
                     button.setBounds(numerDnia * 50 + 400, numerTygodnia * 50 + 130, 50, 50);
                     panel.add(button);
                     miesiac.add(button);
+                    button.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            new ViewMenageDay().setVisible(true);
+                        }
+                    });
                 }
             }
         }
 
         panel.updateUI();
     }
-
 }

@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ViewMenageDish extends JFrame {
     private JPanel panel;
@@ -28,7 +30,7 @@ public class ViewMenageDish extends JFrame {
     public ViewMenageDish() {
         super("Danie");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setBounds(100, 100, 1400, 600);
+        setBounds(100, 100, 1000, 600);
         setVisible(true);
 
         panel = new JPanel();
@@ -118,6 +120,12 @@ public class ViewMenageDish extends JFrame {
     private void przyciskWroc() {
         wroc = new JButton("wróć");
         wroc.setBounds(400, 200, 100, 25);
+        wroc.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
         panel.add(wroc);
     }
 

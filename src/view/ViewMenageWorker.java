@@ -1,6 +1,8 @@
 package view;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ViewMenageWorker extends JFrame  {
 
@@ -41,6 +43,12 @@ public class ViewMenageWorker extends JFrame  {
     private void przyciskWroc(){
         wroc = new JButton("wróć");
         wroc.setBounds(250,200,100,25);
+        wroc.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
         panel.add(wroc);
     }
 }
