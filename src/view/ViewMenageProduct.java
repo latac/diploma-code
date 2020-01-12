@@ -1,5 +1,8 @@
 package view;
 
+import Elements.Product;
+import data.DataConnector;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +28,7 @@ public class ViewMenageProduct extends JFrame {
     private JButton aktualizuj;
     private JButton wroc;
     private JComboBox jednostka;
+    private JList listaProduktow;
     private String[] jednostki = {"g", "ml", "szt."};
 
     public ViewMenageProduct() {
@@ -47,6 +51,7 @@ public class ViewMenageProduct extends JFrame {
         przyciskSzukaj();
         przyciskUsun();
         przyciskWroc();
+        wierszListyProduktow();
 
 
         panel.updateUI();
@@ -127,12 +132,37 @@ public class ViewMenageProduct extends JFrame {
     private void przyciskDodaj() {
         dodaj = new JButton("dodaj");
         dodaj.setBounds(100, 200, 100, 25);
+        dodaj.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Product p = new Product();
+                p.setName(podanaNazwaProduktu.getText());
+                p.setReferenceValue(Integer.valueOf(podanaWartoscReferencyjna.getText()));
+                p.setUnitOfMeasurement(jednostka.getSelectedItem().toString());
+                p.setKcal(Float.valueOf(podanekcal.getText()));
+                p.setCarbohydrates(Float.valueOf(podaneWeglowodany.getText()));
+                p.setProtein(Float.valueOf(podaneBialka.getText()));
+                p.setFat(Float.valueOf(podaneTluszcze.getText()));
+
+                DataConnector.Instance().Produkty().UtworzProdukt(p);
+            }
+        });
         panel.add(dodaj);
     }
 
     private void przyciskUsun() {
         usun = new JButton("usuń");
         usun.setBounds(200, 200, 100, 25);
+        usun.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Product p = new Product();
+                p.setName(podanaNazwaProduktu.getText());
+
+
+                DataConnector.Instance().Produkty().Usun(p.getId());
+            }
+        });
         panel.add(usun);
     }
 
@@ -153,6 +183,12 @@ public class ViewMenageProduct extends JFrame {
             }
         });
         panel.add(wroc);
+    }
+    private void wierszListyProduktow() {
+
+        listaProduktow = new JList();
+        listaProduktow.setBounds(100,300,300,300);
+        panel.add(listaProduktow);
     }
 
 }
