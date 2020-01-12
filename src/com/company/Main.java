@@ -1,5 +1,6 @@
 package com.company;
 
+import Elements.Dish;
 import Elements.Product;
 import data.DataConnector;
 import view.*;
@@ -8,17 +9,23 @@ public class Main {
 
     public static void main(String[] args) {
 
-        new ViewMenageDish();
-        /*Product p = new Product();
-        p.setFat(2);
-        p.setProtein(2);
-        p.setCarbohydrates(2);
-        p.setKcal(2);
-        p.setReferenceValue(2);
-        p.setUnitOfMeasurement("test");
-        p.setName("asd");
+        new ViewMenageMeal();
+/*
+        Product p = new Product();
+        p.setFat(7);
+        p.setProtein(7);
+        p.setCarbohydrates(7);
+        p.setKcal(7);
+        p.setReferenceValue(7);
+        p.setUnitOfMeasurement("test2");
+        p.setName("aa");
 
-        DataConnector.Instance().Produkty().Usun(5);
+        DataConnector.Instance().Produkty().UtworzProdukt(p);
 */
+/*
+              Dish d = new Dish();
+        d.setName("test");
+
+       DataConnector.Instance().Dish().UtworzDanie(d);*/
     }
 }

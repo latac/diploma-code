@@ -1,8 +1,7 @@
 package data;
 
+import Elements.Dish;
 import Elements.DishParser;
-import Elements.Product;
-import Elements.ProduktParser;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -22,9 +21,9 @@ public class DishDatabase {
         this.connector = connector;
     }
 
-    public Product PobierzDanie(int id) {
+    public Dish PobierzDanie(int id) {
         String query = new DishParser().pobierzJeden();
-        Product pobraneDanie =new Product();
+        Dish pobraneDanie = new Dish();
         try {
             Class.forName(connector.DBDRIVER).newInstance();
             connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
@@ -37,10 +36,6 @@ public class DishDatabase {
                 // Get the values from the current row...
                 pobraneDanie.setId(result.getInt(1));
                 pobraneDanie.setName(result.getString(2));
-                pobraneDanie.setKcal(result.getInt(5));
-                pobraneDanie.setCarbohydrates(result.getInt(6));
-                pobraneDanie.setProtein(result.getInt(7));
-                pobraneDanie.setFat(result.getInt(8));
 
             }
             //zwolnienie zasobów i zamknięcie połączenia
@@ -54,9 +49,9 @@ public class DishDatabase {
         return pobraneDanie;
     }
 
-    public List<Product> PobierzProdukty() {
-        String query = new ProduktParser().pobierzWszystkie();
-        List<Product> lista = new ArrayList<>();
+    public List<Dish> PobierzDania() {
+        String query = new DishParser().pobierzWszystkie();
+        List<Dish> lista = new ArrayList<>();
 
         try {
             Class.forName(connector.DBDRIVER).newInstance();
@@ -65,19 +60,13 @@ public class DishDatabase {
 
             ResultSet result = statement.executeQuery(query);
 
-            Product pobranyProdukt;
+            Dish pobraneDanie;
             while (result.next()) {
-                pobranyProdukt = new Product();
+                pobraneDanie = new Dish();
                 // Get the values from the current row...
-                pobranyProdukt.setId(result.getInt(1));
-                pobranyProdukt.setName(result.getString(2));
-                pobranyProdukt.setUnitOfMeasurement(result.getString(3));
-                pobranyProdukt.setReferenceValue(result.getInt(4));
-                pobranyProdukt.setKcal(result.getInt(5));
-                pobranyProdukt.setCarbohydrates(result.getInt(6));
-                pobranyProdukt.setProtein(result.getInt(7));
-                pobranyProdukt.setFat(result.getInt(8));
-                lista.add(pobranyProdukt);
+                pobraneDanie.setId(result.getInt(1));
+                pobraneDanie.setName(result.getString(2));
+                lista.add(pobraneDanie);
             }
             //zwolnienie zasobów i zamknięcie połączenia
             statement.close();
@@ -90,22 +79,15 @@ public class DishDatabase {
         return lista;
     }
 
-    public boolean UtworzProdukt(Product produkt) {
-        String query = new ProduktParser().createSaveQuery(produkt);
+    public boolean UtworzDanie(Dish danie) {
+        String query = new DishParser().createSaveQuery(danie);
         boolean wynik = false;
 
         try {
             Class.forName(connector.DBDRIVER).newInstance();
             connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
             statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, produkt.getName());
-            statement.setString(2, produkt.getUnitOfMeasurement());
-            statement.setInt(3, produkt.getReferenceValue());
-            statement.setFloat(4, produkt.getKcal());
-            statement.setFloat(5, produkt.getCarbohydrates());
-            statement.setFloat(6, produkt.getProtein());
-            statement.setFloat(7, produkt.getFat());
-
+            statement.setString(1, danie.getName());
             int result = statement.executeUpdate();
             if(result == 1)
             {
@@ -115,7 +97,7 @@ public class DishDatabase {
                     candidateId = rs.getInt(1);
                     wynik = true;
                 }
-                produkt.setId(candidateId);
+                danie.setId(candidateId);
             }
 
             //zwolnienie zasobów i zamknięcie połączenia
@@ -130,8 +112,8 @@ public class DishDatabase {
     }
 
     public boolean Usun(int id) {
-        String query = new ProduktParser().Usun();
-        List<Product> lista = new ArrayList<>();
+        String query = new DishParser().Usun();
+        List<Dish> lista = new ArrayList<>();
         boolean result = false;
 
         try {
@@ -157,9 +139,9 @@ public class DishDatabase {
         return result;
     }
 
-    public boolean Edytuj(Product produkt) {
-        String query = new ProduktParser().Edytuj();
-        List<Product> lista = new ArrayList<>();
+    public boolean Edytuj(Dish danie) {
+        String query = new DishParser().Edytuj();
+        List<Dish> lista = new ArrayList<>();
         boolean wynik = false;
 
         try {
@@ -167,14 +149,8 @@ public class DishDatabase {
             connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
             statement = connection.prepareStatement(query);
 
-            statement.setString(1, produkt.getName());
-            statement.setString(2, produkt.getUnitOfMeasurement());
-            statement.setInt(3, produkt.getReferenceValue());
-            statement.setFloat(4, produkt.getKcal());
-            statement.setFloat(5, produkt.getCarbohydrates());
-            statement.setFloat(6, produkt.getProtein());
-            statement.setFloat(7, produkt.getFat());
-            statement.setInt(8, produkt.getId());
+            statement.setString(1, danie.getName());
+            statement.setInt(2, danie.getId());
 
             int result = statement.executeUpdate();
             if(result == 1)
@@ -185,7 +161,7 @@ public class DishDatabase {
                     candidateId = rs.getInt(1);
                     wynik = true;
                 }
-                produkt.setId(candidateId);
+                danie.setId(candidateId);
             }
 
             //zwolnienie zasobów i zamknięcie połączenia

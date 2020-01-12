@@ -10,7 +10,7 @@ public class DishParser {
          * przez bazę danych.
          * INSERT INTO articles VALUES (NULL, 'title', 'text');
          */
-        return "insert into `product` VALUES (null, ?, ?, ?, ?, ?)";
+        return "insert into `dish` VALUES (null, ?)";
 
     }
 

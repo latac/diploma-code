@@ -30,5 +30,8 @@ public class DataConnector {
     public ProduktDatabase Produkty() {
         return new ProduktDatabase(this);
     }
+    public DishDatabase Dish() {
+        return new DishDatabase(this);
+    }
 
 }

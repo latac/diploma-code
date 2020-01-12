@@ -30,7 +30,6 @@ public class ProduktParser {
         return "delete from `product` where id = ?";
     }
 
-
     public String Edytuj() {
         return "update `product` SET VALUES name = ?, unitOfMeasuremen = ?, referenceValu = ?, kcal = ?, carbohydrate = ?, protein = ?, fat = ? where id = ?";
     }
