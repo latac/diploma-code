@@ -1,12 +1,5 @@
 package data;
 
-import Elements.Product;
-import Elements.ProduktParser;
-
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-
 public class DataConnector {
     public final static String DBURL = "jdbc:mysql://127.0.0.1:3306/dieta";
     public final static String DBUSER = "root";
@@ -34,4 +27,8 @@ public class DataConnector {
         return new DishDatabase(this);
     }
 
+
+    public MealDatabase Meal() {
+        return new MealDatabase(this);
+    }
 }

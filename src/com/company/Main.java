@@ -1,6 +1,7 @@
 package com.company;
 
 import Elements.Dish;
+import Elements.Meal;
 import Elements.Product;
 import data.DataConnector;
 import view.*;
@@ -21,11 +22,14 @@ public class Main {
         p.setName("aa");
 
         DataConnector.Instance().Produkty().UtworzProdukt(p);
-*/
-/*
+*//*
               Dish d = new Dish();
         d.setName("test");
 
        DataConnector.Instance().Dish().UtworzDanie(d);*/
+
+        Meal m = new Meal();
+        m.setName("test");
+        DataConnector.Instance().Meal().UtworzPosilek(m);
     }
 }

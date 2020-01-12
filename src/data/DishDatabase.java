@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DishDatabase {
-    DataConnector connector;
+public class DishDatabase { DataConnector connector;
 
     //obiekt tworzący połączenie z bazą danych.
     private Connection connection;

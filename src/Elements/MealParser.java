@@ -1,7 +1,7 @@
 package Elements;
 
 public class MealParser {
-    public String createSaveQuery(Dish article) {
+    public String createSaveQuery(Meal article) {
     String query = "";
 
     /**
@@ -10,7 +10,7 @@ public class MealParser {
      * przez bazę danych.
      * INSERT INTO articles VALUES (NULL, 'title', 'text');
      */
-    return "insert into `product` VALUES (null, ?, ?, ?, ?, ?)";
+    return "insert into `meal` VALUES (null, ?)";
 
 }
 
