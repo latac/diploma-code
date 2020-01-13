@@ -58,6 +58,7 @@ public class ViewMenageDish extends JFrame implements MouseListener {
         wierszSzukaniaProduktu();
         wierszListyDan();
         wierszZListaProduktow();
+        addMouseListener(this);
 
 
         panel.updateUI();
