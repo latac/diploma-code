@@ -2,12 +2,17 @@ package view;
 
 import Elements.Product;
 import data.DataConnector;
+import data.ProduktDatabase;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ViewMenageProduct extends JFrame {
+public class ViewMenageProduct extends JFrame implements MouseListener {
 
     private JPanel panel;
     private JLabel nazwaProduktu;
@@ -30,6 +35,8 @@ public class ViewMenageProduct extends JFrame {
     private JComboBox jednostka;
     private JList listaProduktow;
     private String[] jednostki = {"g", "ml", "szt."};
+    private List<Product> arrayOfProducts;
+    DefaultListModel<String> model;
 
     public ViewMenageProduct() {
         super("Produkt");
@@ -186,9 +193,42 @@ public class ViewMenageProduct extends JFrame {
     }
     private void wierszListyProduktow() {
 
-        listaProduktow = new JList();
+        DataConnector connector = DataConnector.Instance();
+        ProduktDatabase produktDatabase = new ProduktDatabase(connector);
+        arrayOfProducts = produktDatabase.PobierzProdukty();
+        model = new DefaultListModel<>();
+
+        for(int i = 0; i < arrayOfProducts.size(); i++){
+            model.add(i , arrayOfProducts.get(i).getName());
+        }
+        listaProduktow = new JList(model);
         listaProduktow.setBounds(100,300,300,300);
         panel.add(listaProduktow);
+}
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    int x = 0;
     }
 
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
 }

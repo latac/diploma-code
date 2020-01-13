@@ -1,12 +1,15 @@
 package view;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import Elements.Dish;
+import Elements.Meal;
+import data.DataConnector;
+import data.DishDatabase;
+import data.MealDatabase;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class ViewMenageMeal extends JFrame {
     private JPanel panel;
@@ -24,6 +27,8 @@ public class ViewMenageMeal extends JFrame {
     private JButton aktualizuj;
     private JButton wroc;
     private JButton dodajDanie;
+    private JList listaPosilkow;
+    private List<Meal> arrayOfMeal;
 
 
     public ViewMenageMeal() {
@@ -46,6 +51,7 @@ public class ViewMenageMeal extends JFrame {
         przyciskUsun();
         przyciskWroc();
         wierszSzukaniaDania();
+        wierszListyPosilkow();
 
 
         panel.updateUI();
@@ -136,6 +142,22 @@ public class ViewMenageMeal extends JFrame {
         dodajDanie = new JButton("+");
         dodajDanie.setBounds(900,30,50,25);
         panel.add(dodajDanie);
+    }
+
+    private void wierszListyPosilkow(){
+
+        DataConnector connector = DataConnector.Instance();
+        MealDatabase posilekDatabase = new MealDatabase(connector);
+        arrayOfMeal = posilekDatabase.PobierzPosilki();
+        DefaultListModel<String> model = new DefaultListModel<>();
+
+        for(int i = 0; i < arrayOfMeal.size(); i++){
+            model.add(i , arrayOfMeal.get(i).getName());
+        }
+        listaPosilkow = new JList(model);
+        listaPosilkow.setBounds(100,300,300,300);
+        panel.add(listaPosilkow);
+
     }
 
 }

@@ -1,14 +1,19 @@
 package view;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import Elements.Dish;
+import Elements.Product;
+import data.DataConnector;
+import data.DishDatabase;
+import data.ProduktDatabase;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.List;
 
-public class ViewMenageDish extends JFrame {
+public class ViewMenageDish extends JFrame implements MouseListener {
     private JPanel panel;
     private JLabel nazwaDania;
     private JLabel kcal;
@@ -26,8 +31,12 @@ public class ViewMenageDish extends JFrame {
     private JButton aktualizuj;
     private JButton wroc;
     private JButton dodajProdukt;
+    private JList listaDan;
+    private List<Dish> arrayOfDish;
+    private JList listaProduktow;
+    private List<Product> arrayOfProducts;
 
-    public ViewMenageDish() {
+    ViewMenageDish() {
         super("Danie");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 1000, 600);
@@ -47,11 +56,13 @@ public class ViewMenageDish extends JFrame {
         przyciskUsun();
         przyciskWroc();
         wierszSzukaniaProduktu();
-
+        wierszListyDan();
+        wierszZListaProduktow();
 
 
         panel.updateUI();
     }
+
     private void wierszNazwyDania() {
         nazwaDania = new JLabel("nazwa dania");
         nazwaDania.setBounds(0, 10, 200, 25);
@@ -131,11 +142,11 @@ public class ViewMenageDish extends JFrame {
 
     private void wierszSzukaniaProduktu() {
         podajProdukt = new JLabel("Wpisz nazwę produktu:");
-        podajProdukt.setBounds(600,0,200,25);
+        podajProdukt.setBounds(600, 0, 200, 25);
         panel.add(podajProdukt);
 
         podajIloscProdukty = new JLabel("Podaj ilość:");
-        podajIloscProdukty.setBounds(800,0,200,25);
+        podajIloscProdukty.setBounds(800, 0, 200, 25);
         panel.add(podajIloscProdukty);
 
         znajdzProdukt = new JTextField();
@@ -143,13 +154,82 @@ public class ViewMenageDish extends JFrame {
         panel.add(znajdzProdukt);
 
         iloscProduktu = new JTextField();
-        iloscProduktu.setBounds(800,30,100,25);
+        iloscProduktu.setBounds(800, 30, 100, 25);
         panel.add(iloscProduktu);
 
         dodajProdukt = new JButton("+");
-        dodajProdukt.setBounds(900,30,50,25);
+        dodajProdukt.setBounds(900, 30, 50, 25);
         panel.add(dodajProdukt);
     }
 
+    private void wierszListyDan() {
 
+        DataConnector connector = DataConnector.Instance();
+        DishDatabase danieDatabase = new DishDatabase(connector);
+        arrayOfDish = danieDatabase.PobierzDania();
+        DefaultListModel<String> model = new DefaultListModel<>();
+
+        for (int i = 0; i < arrayOfDish.size(); i++) {
+            model.add(i, arrayOfDish.get(i).getName());
+        }
+        listaDan = new JList(model);
+        listaDan.setBounds(100, 300, 300, 300);
+        panel.add(listaDan);
+
+    }
+
+    private void wierszZListaProduktow() {
+        listaProduktow = new JList();
+        listaProduktow.setBounds(600, 100, 300, 300);
+        panel.add(listaProduktow);
+    }
+
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+//        DataConnector connector = DataConnector.Instance();
+//        ProduktDatabase produktDatabase = new ProduktDatabase(connector);
+//        arrayOfProducts = produktDatabase.PobierzProdukty();
+//        model = new DefaultListModel<>();
+//
+//        for(int i = 0; i < arrayOfProducts.size(); i++){
+//            model.add(i , arrayOfProducts.get(i).getName());
+//        }
+//        listaProduktow = new JList(model);
+//        listaProduktow.setBounds(100,300,300,300);
+//        panel.add(listaProduktow);
+//    }
+        DataConnector connector = DataConnector.Instance();
+        ProduktDatabase produktDatabase = new ProduktDatabase(connector);
+        arrayOfProducts = produktDatabase.PobierzProdukty();
+        DefaultListModel<String> model = new DefaultListModel<>();
+
+        for (int i = 0; i < arrayOfProducts.size(); i++) {
+            model.add(i, arrayOfProducts.get(i).getName());
+        }
+        listaProduktow = new JList(model);
+        listaProduktow.setBounds(100,300,300,300);
+        panel.add(listaProduktow);
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
 }

@@ -48,7 +48,7 @@ public class MealDatabase {    DataConnector connector;
         return pobranyPosilek;
     }
 
-    public List<Meal> PobierzPosilek() {
+    public List<Meal> PobierzPosilki() {
         String query = new MealParser().pobierzWszystkie();
         List<Meal> lista = new ArrayList<>();
 
