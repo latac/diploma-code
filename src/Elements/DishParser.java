@@ -31,6 +31,6 @@ public class DishParser {
         return "update `dish` SET VALUES name = ?, kcal = ?, carbohydrate = ?, protein = ?, fat = ? where id = ?";
     }
     public String PobierzDaniaZPosilku(){
-        return "select p.*, di.amountOfProduct from dishingredients as di left join product as p on di.idProduct = p.id left join dish d on di.idDish = d.id where d.id = ?";
+        return "select d.* from mealingredients as mi left join dish as d on mi.idDish = d.id left join meal m on mi.idMeal = m.id where m.id = ?";
     }
 }

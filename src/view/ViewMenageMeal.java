@@ -31,6 +31,7 @@ public class ViewMenageMeal extends JFrame {
     private JButton wroc;
     private JButton dodajDanie;
     private JList listaPosilkow;
+    private JList listaDan;
     private List<Meal> arrayOfMeal;
 
 
@@ -56,6 +57,11 @@ public class ViewMenageMeal extends JFrame {
         wierszSzukaniaDania();
         wierszListyPosilkow();
 
+
+        listaDan = new JList();
+        listaDan.setBounds(600, 100, 300, 300);
+
+        panel.add(listaDan);
 
         panel.updateUI();
     }
@@ -166,7 +172,7 @@ public class ViewMenageMeal extends JFrame {
             public void valueChanged(ListSelectionEvent e) {
                 int id = listaPosilkow.getSelectedIndex();
                 if (id != -1) {
-                    int idDish = arrayOfMeal.get(id).getId();
+                    int idMeal = arrayOfMeal.get(id).getId();
                     List<Dish> dania = DataConnector.Instance().Dish().PobierzDaniaZPosilku(idMeal);
                     wierszZListaDan(dania);
                 }
@@ -179,7 +185,7 @@ public class ViewMenageMeal extends JFrame {
 
     private void wierszZListaDan(List<Dish> dania) {
         panel.remove(listaDan);
-        DefaultListModel<Product> model = new DefaultListModel<>();
+        DefaultListModel<Dish> model = new DefaultListModel<>();
 
         for (int i = 0; i < dania.size(); i++) {
             model.add(i, dania.get(i));
