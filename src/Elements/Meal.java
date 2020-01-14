@@ -26,5 +26,8 @@ public class Meal {
 
     public Meal(String name) {
     }
-
+    @Override
+    public String toString() {
+        return name;
+    }
 }

@@ -7,13 +7,17 @@ import data.DishDatabase;
 import data.ProduktDatabase;
 
 import javax.swing.*;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
 
-public class ViewMenageDish extends JFrame implements MouseListener {
+public class ViewMenageDish extends JFrame {
     private JPanel panel;
     private JLabel nazwaDania;
     private JLabel kcal;
@@ -57,9 +61,12 @@ public class ViewMenageDish extends JFrame implements MouseListener {
         przyciskWroc();
         wierszSzukaniaProduktu();
         wierszListyDan();
-        wierszZListaProduktow();
-        addMouseListener(this);
+       //wierszZListaProduktow();
 
+        listaProduktow = new JList();
+        listaProduktow.setBounds(600, 100, 300, 300);
+
+        panel.add(listaProduktow);
 
         panel.updateUI();
     }
@@ -168,69 +175,43 @@ public class ViewMenageDish extends JFrame implements MouseListener {
         DataConnector connector = DataConnector.Instance();
         DishDatabase danieDatabase = new DishDatabase(connector);
         arrayOfDish = danieDatabase.PobierzDania();
-        DefaultListModel<String> model = new DefaultListModel<>();
+        DefaultListModel<Dish> model = new DefaultListModel<>();
 
         for (int i = 0; i < arrayOfDish.size(); i++) {
-            model.add(i, arrayOfDish.get(i).getName());
+            model.add(i, arrayOfDish.get(i));
         }
         listaDan = new JList(model);
         listaDan.setBounds(100, 300, 300, 300);
+
+        listaDan.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int id = listaDan.getSelectedIndex();
+                if (id != -1) {
+                    int idDish = arrayOfDish.get(id).getId();
+                    List<Product> produkty = DataConnector.Instance().Produkty().PobierzProduktyZDania(idDish);
+                    wierszZListaProduktow(produkty);
+                }
+            }
+        });
+
         panel.add(listaDan);
 
     }
 
-    private void wierszZListaProduktow() {
-        listaProduktow = new JList();
-        listaProduktow.setBounds(600, 100, 300, 300);
-        panel.add(listaProduktow);
-    }
+    private void wierszZListaProduktow(List<Product> produkty) {
+        panel.remove(listaProduktow);
+        DefaultListModel<Product> model = new DefaultListModel<>();
 
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-//        DataConnector connector = DataConnector.Instance();
-//        ProduktDatabase produktDatabase = new ProduktDatabase(connector);
-//        arrayOfProducts = produktDatabase.PobierzProdukty();
-//        model = new DefaultListModel<>();
-//
-//        for(int i = 0; i < arrayOfProducts.size(); i++){
-//            model.add(i , arrayOfProducts.get(i).getName());
-//        }
-//        listaProduktow = new JList(model);
-//        listaProduktow.setBounds(100,300,300,300);
-//        panel.add(listaProduktow);
-//    }
-        DataConnector connector = DataConnector.Instance();
-        ProduktDatabase produktDatabase = new ProduktDatabase(connector);
-        arrayOfProducts = produktDatabase.PobierzProdukty();
-        DefaultListModel<String> model = new DefaultListModel<>();
-
-        for (int i = 0; i < arrayOfProducts.size(); i++) {
-            model.add(i, arrayOfProducts.get(i).getName());
+        for (int i = 0; i < produkty.size(); i++) {
+            model.add(i, produkty.get(i));
         }
         listaProduktow = new JList(model);
-        listaProduktow.setBounds(100,300,300,300);
+        listaProduktow.setBounds(600, 100, 300, 300);
         panel.add(listaProduktow);
 
+        listaProduktow.updateUI();
+        panel.updateUI();
     }
 
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
 }

@@ -209,7 +209,7 @@ public class ViewMenageProduct extends JFrame implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
 
-    int x = 0;
+
     }
 
     @Override

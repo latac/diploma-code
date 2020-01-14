@@ -30,4 +30,7 @@ public class DishParser {
     public String Edytuj() {
         return "update `dish` SET VALUES name = ?, kcal = ?, carbohydrate = ?, protein = ?, fat = ? where id = ?";
     }
+    public String PobierzDaniaZPosilku(){
+        return "select p.*, di.amountOfProduct from dishingredients as di left join product as p on di.idProduct = p.id left join dish d on di.idDish = d.id where d.id = ?";
+    }
 }

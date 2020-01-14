@@ -2,11 +2,14 @@ package view;
 
 import Elements.Dish;
 import Elements.Meal;
+import Elements.Product;
 import data.DataConnector;
 import data.DishDatabase;
 import data.MealDatabase;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -146,18 +149,46 @@ public class ViewMenageMeal extends JFrame {
 
     private void wierszListyPosilkow(){
 
+
         DataConnector connector = DataConnector.Instance();
         MealDatabase posilekDatabase = new MealDatabase(connector);
         arrayOfMeal = posilekDatabase.PobierzPosilki();
-        DefaultListModel<String> model = new DefaultListModel<>();
+        DefaultListModel<Meal> model = new DefaultListModel<>();
 
-        for(int i = 0; i < arrayOfMeal.size(); i++){
-            model.add(i , arrayOfMeal.get(i).getName());
+        for (int i = 0; i < arrayOfMeal.size(); i++) {
+            model.add(i, arrayOfMeal.get(i));
         }
         listaPosilkow = new JList(model);
-        listaPosilkow.setBounds(100,300,300,300);
+        listaPosilkow.setBounds(100, 300, 300, 300);
+
+        listaPosilkow.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int id = listaPosilkow.getSelectedIndex();
+                if (id != -1) {
+                    int idDish = arrayOfMeal.get(id).getId();
+                    List<Dish> dania = DataConnector.Instance().Dish().PobierzDaniaZPosilku(idMeal);
+                    wierszZListaDan(dania);
+                }
+            }
+        });
+
         panel.add(listaPosilkow);
 
     }
 
+    private void wierszZListaDan(List<Dish> dania) {
+        panel.remove(listaDan);
+        DefaultListModel<Product> model = new DefaultListModel<>();
+
+        for (int i = 0; i < dania.size(); i++) {
+            model.add(i, dania.get(i));
+        }
+        listaDan = new JList(model);
+        listaDan.setBounds(600, 100, 300, 300);
+        panel.add(listaDan);
+
+        listaDan.updateUI();
+        panel.updateUI();
+    }
 }

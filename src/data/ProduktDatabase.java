@@ -101,7 +101,7 @@ public class ProduktDatabase {
             connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
             statement = connection.prepareStatement(query);
             statement.setInt(1, id);
-            ResultSet result = statement.executeQuery(query);
+            ResultSet result = statement.executeQuery();
 
 
             Product pobranyProdukt;

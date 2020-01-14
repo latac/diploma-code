@@ -28,4 +28,8 @@ public class Dish {
     public Dish(String name) {
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }
