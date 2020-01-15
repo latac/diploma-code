@@ -39,10 +39,10 @@ public class ProduktDatabase {
                 pobranyProdukt.setName(result.getString(2));
                 pobranyProdukt.setUnitOfMeasurement(result.getString(3));
                 pobranyProdukt.setReferenceValue(result.getInt(4));
-                pobranyProdukt.setKcal(result.getInt(5));
-                pobranyProdukt.setCarbohydrates(result.getInt(6));
-                pobranyProdukt.setProtein(result.getInt(7));
-                pobranyProdukt.setFat(result.getInt(8));
+                pobranyProdukt.setKcal(result.getFloat(5));
+                pobranyProdukt.setCarbohydrates(result.getFloat(6));
+                pobranyProdukt.setProtein(result.getFloat(7));
+                pobranyProdukt.setFat(result.getFloat(8));
 
             }
             //zwolnienie zasobów i zamknięcie połączenia
@@ -75,10 +75,10 @@ public class ProduktDatabase {
                 pobranyProdukt.setName(result.getString(2));
                 pobranyProdukt.setUnitOfMeasurement(result.getString(3));
                 pobranyProdukt.setReferenceValue(result.getInt(4));
-                pobranyProdukt.setKcal(result.getInt(5));
-                pobranyProdukt.setCarbohydrates(result.getInt(6));
-                pobranyProdukt.setProtein(result.getInt(7));
-                pobranyProdukt.setFat(result.getInt(8));
+                pobranyProdukt.setKcal(result.getFloat(5));
+                pobranyProdukt.setCarbohydrates(result.getFloat(6));
+                pobranyProdukt.setProtein(result.getFloat(7));
+                pobranyProdukt.setFat(result.getFloat(8));
                 lista.add(pobranyProdukt);
             }
             //zwolnienie zasobów i zamknięcie połączenia
@@ -112,10 +112,10 @@ public class ProduktDatabase {
                 pobranyProdukt.setName(result.getString(2));
                 pobranyProdukt.setUnitOfMeasurement(result.getString(3));
                 pobranyProdukt.setReferenceValue(result.getInt(4));
-                pobranyProdukt.setKcal(result.getInt(5));
-                pobranyProdukt.setCarbohydrates(result.getInt(6));
-                pobranyProdukt.setProtein(result.getInt(7));
-                pobranyProdukt.setFat(result.getInt(8));
+                pobranyProdukt.setKcal(result.getFloat(5));
+                pobranyProdukt.setCarbohydrates(result.getFloat(6));
+                pobranyProdukt.setProtein(result.getFloat(7));
+                pobranyProdukt.setFat(result.getFloat(8));
                 pobranyProdukt.setAmountOfProduct(result.getFloat(9));
                 lista.add(pobranyProdukt);
             }

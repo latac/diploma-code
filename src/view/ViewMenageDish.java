@@ -21,9 +21,13 @@ public class ViewMenageDish extends JFrame {
     private JPanel panel;
     private JLabel nazwaDania;
     private JLabel kcal;
+    private JLabel wyliczoneKcal;
     private JLabel weglowodany;
+    private JLabel wyliczoneWeglowodany;
     private JLabel bialka;
+    private JLabel wyliczoneBialka;
     private JLabel tluszcze;
+    private JLabel wyliczoneTluszcze;
     private JLabel podajProdukt;
     private JLabel podajIloscProdukty;
     private JTextField podanaNazwaDania;
@@ -39,6 +43,8 @@ public class ViewMenageDish extends JFrame {
     private List<Dish> arrayOfDish;
     private JList listaProduktow;
     private List<Product> arrayOfProducts;
+    private JComboBox listaWyboruProduktow;
+    private String[] wybranyProdukt={"Produkt 1", "Produkt 2"};
 
     ViewMenageDish() {
         super("Danie");
@@ -87,12 +93,20 @@ public class ViewMenageDish extends JFrame {
         kcal.setBounds(0, 40, 200, 25);
         panel.add(kcal);
 
+        wyliczoneKcal = new JLabel("0");
+        wyliczoneKcal.setBounds(200, 40, 200, 25);
+        panel.add(wyliczoneKcal);
+
     }
 
     private void wierszWeglowodanow() {
-        weglowodany = new JLabel("węglowodany");
+        weglowodany = new JLabel("weglowodany");
         weglowodany.setBounds(0, 70, 200, 25);
         panel.add(weglowodany);
+
+        wyliczoneWeglowodany = new JLabel("0");
+        wyliczoneWeglowodany.setBounds(200, 70, 200, 25);
+        panel.add(wyliczoneWeglowodany);
 
     }
 
@@ -101,6 +115,10 @@ public class ViewMenageDish extends JFrame {
         bialka.setBounds(0, 100, 200, 25);
         panel.add(bialka);
 
+        wyliczoneBialka = new JLabel("0");
+        wyliczoneBialka.setBounds(200, 100, 200, 25);
+        panel.add(wyliczoneBialka);
+
     }
 
     private void wierszTluszczy() {
@@ -108,6 +126,9 @@ public class ViewMenageDish extends JFrame {
         tluszcze.setBounds(0, 130, 200, 25);
         panel.add(tluszcze);
 
+        wyliczoneTluszcze = new JLabel("0");
+        wyliczoneTluszcze.setBounds(200, 130, 200, 25);
+        panel.add(wyliczoneTluszcze);
     }
 
     private void przyciskSzukaj() {
@@ -157,13 +178,15 @@ public class ViewMenageDish extends JFrame {
         podajIloscProdukty.setBounds(800, 0, 200, 25);
         panel.add(podajIloscProdukty);
 
-        znajdzProdukt = new JTextField();
+/*        znajdzProdukt = new JTextField();
         znajdzProdukt.setBounds(600, 30, 200, 25);
-        panel.add(znajdzProdukt);
+        panel.add(znajdzProdukt);*/
 
-        iloscProduktu = new JTextField();
-        iloscProduktu.setBounds(800, 30, 100, 25);
-        panel.add(iloscProduktu);
+
+        listaWyboruProduktow = new JComboBox<>();
+        listaWyboruProduktow.setBounds(600, 30, 100, 25);
+        listaWyboruProduktow.addItem(wybranyProdukt);
+        panel.add(listaWyboruProduktow);
 
         dodajProdukt = new JButton("+");
         dodajProdukt.setBounds(900, 30, 50, 25);
@@ -191,6 +214,24 @@ public class ViewMenageDish extends JFrame {
                     int idDish = arrayOfDish.get(id).getId();
                     List<Product> produkty = DataConnector.Instance().Produkty().PobierzProduktyZDania(idDish);
                     wierszZListaProduktow(produkty);
+
+                    //Dish danie = arrayOfDish.get(id);
+                    float sumaKalorii = 0f;
+                    float sumaBialek = 0f;
+                    float sumaWeglowodanow = 0f;
+                    float sumaTluszczy = 0f;
+
+                    for (Product p : produkty) {
+                            sumaKalorii += p.getKcal();
+                            sumaBialek += p.getProtein();
+                            sumaWeglowodanow += p.getCarbohydrates();
+                            sumaTluszczy += p.getFat();
+                    }
+
+                    wyliczoneKcal.setText(String.valueOf(sumaKalorii));
+                    wyliczoneBialka.setText(String.valueOf(sumaBialek));
+                    wyliczoneWeglowodany.setText(String.valueOf(sumaWeglowodanow));
+                    wyliczoneTluszcze.setText(String.valueOf(sumaTluszczy));
                 }
             }
         });

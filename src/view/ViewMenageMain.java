@@ -23,9 +23,13 @@ public class ViewMenageMain extends JFrame {
     private JButton poprzedniMiesiac;
     private JButton nastepnyMiesiac;
     private JLabel kcal;
+    private JLabel wyliczoneKcal;
     private JLabel weglowodany;
+    private JLabel wyliczoneWeglowodany;
     private JLabel bialka;
+    private JLabel wyliczoneBialka;
     private JLabel tluszcze;
+    private JLabel wyliczoneTluszcze;
     private JLabel poniedzialek;
     private JLabel wtorek;
     private JLabel sroda;
@@ -130,12 +134,20 @@ public class ViewMenageMain extends JFrame {
         kcal.setBounds(0, 40, 200, 25);
         panel.add(kcal);
 
+        wyliczoneKcal = new JLabel("0");
+        wyliczoneKcal.setBounds(200, 40, 200, 25);
+        panel.add(wyliczoneKcal);
+
     }
 
     private void wierszWeglowodanow() {
         weglowodany = new JLabel("węglowodany");
         weglowodany.setBounds(0, 70, 200, 25);
         panel.add(weglowodany);
+
+        wyliczoneWeglowodany = new JLabel("0");
+        wyliczoneWeglowodany.setBounds(200, 70, 200, 25);
+        panel.add(wyliczoneWeglowodany);
 
     }
 
@@ -144,12 +156,20 @@ public class ViewMenageMain extends JFrame {
         bialka.setBounds(0, 100, 200, 25);
         panel.add(bialka);
 
+        wyliczoneBialka = new JLabel("0");
+        wyliczoneBialka.setBounds(200, 100, 200, 25);
+        panel.add(wyliczoneBialka);
+
     }
 
     private void wierszTluszczy() {
         tluszcze = new JLabel("tłuszcze");
         tluszcze.setBounds(0, 130, 200, 25);
         panel.add(tluszcze);
+
+        wyliczoneTluszcze = new JLabel("0");
+        wyliczoneTluszcze.setBounds(200, 130, 200, 25);
+        panel.add(wyliczoneTluszcze);
 
     }
     private void wierszNazwDni(){

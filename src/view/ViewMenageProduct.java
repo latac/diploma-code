@@ -5,6 +5,8 @@ import data.DataConnector;
 import data.ProduktDatabase;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -12,7 +14,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewMenageProduct extends JFrame implements MouseListener {
+public class ViewMenageProduct extends JFrame  {
 
     private JPanel panel;
     private JLabel nazwaProduktu;
@@ -202,33 +204,24 @@ public class ViewMenageProduct extends JFrame implements MouseListener {
             model.add(i , arrayOfProducts.get(i).getName());
         }
         listaProduktow = new JList(model);
+        listaProduktow.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int id = listaProduktow.getSelectedIndex();
+                if (id != -1) {
+                    Product produkt = arrayOfProducts.get(id);
+                    podanaNazwaProduktu.setText(produkt.getName());
+                    podanaWartoscReferencyjna.setText(String.valueOf(produkt.getReferenceValue()));
+                    podanekcal.setText(String.valueOf(produkt.getKcal()));
+                    podaneBialka.setText(String.valueOf(produkt.getProtein()));
+                    podaneWeglowodany.setText(String.valueOf(produkt.getCarbohydrates()));
+                    podaneTluszcze.setText(String.valueOf(produkt.getFat()));
+
+                }
+            }
+        });
         listaProduktow.setBounds(100,300,300,300);
         panel.add(listaProduktow);
 }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
 }
