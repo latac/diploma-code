@@ -196,6 +196,7 @@ public class ViewMenageMeal extends JFrame {
                     List<Dish> dania = DataConnector.Instance().Dish().PobierzDaniaZPosilku(idMeal);
                     wierszZListaDan(dania);
 
+                    Meal posilek = arrayOfMeal.get(id);
                     float sumaKalorii = 0f;
                     float sumaBialek = 0f;
                     float sumaWeglowodanow = 0f;
@@ -213,7 +214,7 @@ public class ViewMenageMeal extends JFrame {
 
                     }
 
-
+                    podanaNazwaPosilku.setText(posilek.getName());
                     wyliczoneKcal.setText(String.valueOf(sumaKalorii));
                     wyliczoneBialka.setText(String.valueOf(sumaBialek));
                     wyliczoneWeglowodany.setText(String.valueOf(sumaWeglowodanow));

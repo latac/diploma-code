@@ -1,5 +1,6 @@
 package view;
 
+import Elements.Day;
 import Elements.Dish;
 import Elements.Meal;
 import Elements.Product;

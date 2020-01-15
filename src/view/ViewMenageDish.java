@@ -215,7 +215,7 @@ public class ViewMenageDish extends JFrame {
                     List<Product> produkty = DataConnector.Instance().Produkty().PobierzProduktyZDania(idDish);
                     wierszZListaProduktow(produkty);
 
-                    //Dish danie = arrayOfDish.get(id);
+                    Dish danie = arrayOfDish.get(id);
                     float sumaKalorii = 0f;
                     float sumaBialek = 0f;
                     float sumaWeglowodanow = 0f;
@@ -227,7 +227,7 @@ public class ViewMenageDish extends JFrame {
                             sumaWeglowodanow += p.getCarbohydrates();
                             sumaTluszczy += p.getFat();
                     }
-
+                    podanaNazwaDania.setText(danie.getName());
                     wyliczoneKcal.setText(String.valueOf(sumaKalorii));
                     wyliczoneBialka.setText(String.valueOf(sumaBialek));
                     wyliczoneWeglowodany.setText(String.valueOf(sumaWeglowodanow));
