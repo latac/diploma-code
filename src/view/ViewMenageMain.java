@@ -3,14 +3,20 @@ package view;
 import Elements.Product;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class ViewMenageMain extends JFrame {
 
@@ -40,12 +46,19 @@ public class ViewMenageMain extends JFrame {
     private JLabel wyswietlanyMiesiac;
     private ArrayList<JButton> miesiac;
 
+    private Date poczatekDekady, koniecDekady;
+    private Date poczatekProgramu;
+
     Date aktualnaData;
 
     public ViewMenageMain() {
         super("Jadłospis");
 
-        aktualnaData = new Date();
+
+        Calendar c = Calendar.getInstance();
+        c.set(2020, 0, 1, 0, 0);
+        poczatekProgramu =c.getTime();
+                aktualnaData = new Date();
         miesiac = new ArrayList<>();
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -66,7 +79,7 @@ public class ViewMenageMain extends JFrame {
         wierszWeglowodanow();
         wierszNazwDni();
         wierszZmianyMiesiaca();
-        przyciskiDni();
+        UstawAktualnaDekade(aktualnaData);
 
 
         panel.updateUI();
@@ -280,6 +293,7 @@ public class ViewMenageMain extends JFrame {
 
         int iloscDni = 7;
         int tydzien = 5;
+        kalendarz.add(Calendar.DAY_OF_MONTH, 2);
         miesiac = new ArrayList<>();
         for(int numerTygodnia=0; numerTygodnia<tydzien; numerTygodnia++) {
             for(int numerDnia=0; numerDnia<iloscDni;numerDnia++) {
@@ -291,13 +305,52 @@ public class ViewMenageMain extends JFrame {
                 prawidlowyNumerDnia = obliczonyNumerDnia - przesuniecie +1;
                 if (czyMogeZapisac && prawidlowyNumerDnia <= daysInMonth) {
                     JButton button =new JButton(String.valueOf(prawidlowyNumerDnia));
+                    Date aktualnaPelnaData = kalendarz.getTime();
+                    if(aktualnaPelnaData.compareTo(poczatekDekady) >= 0 && aktualnaPelnaData.compareTo(koniecDekady) < 0) {
+                        button.setBackground(Color.CYAN);
+                    }
+                    kalendarz.add(Calendar.DAY_OF_MONTH, 1);
                     button.setBounds(numerDnia * 50 + 400, numerTygodnia * 50 + 130, 50, 50);
                     panel.add(button);
                     miesiac.add(button);
-                    button.addActionListener(new ActionListener() {
+                    int finalPrawidlowyNumerDnia = prawidlowyNumerDnia;
+                    button.addMouseListener(new MouseListener() {
                         @Override
-                        public void actionPerformed(ActionEvent e) {
-                            new ViewMenageDay().setVisible(true);
+                        public void mouseClicked(MouseEvent e) {
+                            if (e.getButton() == MouseEvent.BUTTON1) {
+                                Date dzien = new Date(aktualnaData.getYear(), wybranyMiesiacLiczba, finalPrawidlowyNumerDnia);
+
+                                new ViewMenageDay(dzien).setVisible(true);
+                            }
+                            if (e.getButton() == MouseEvent.BUTTON3) {
+                                // aktualna dekada w konstruktorze
+
+                                Date dzien = new Date(aktualnaData.getYear(), wybranyMiesiacLiczba, finalPrawidlowyNumerDnia);
+
+                                UstawAktualnaDekade(dzien);
+                            }
+
+
+                        }
+
+                        @Override
+                        public void mousePressed(MouseEvent e) {
+
+                        }
+
+                        @Override
+                        public void mouseReleased(MouseEvent e) {
+
+                        }
+
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+
+                        }
+
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+
                         }
                     });
                 }
@@ -306,4 +359,23 @@ public class ViewMenageMain extends JFrame {
 
         panel.updateUI();
     }
+
+    public void  UstawAktualnaDekade(Date dzien) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+        Calendar k = Calendar.getInstance();
+
+        long diffInMillies = Math.abs(dzien.getTime() - poczatekProgramu.getTime());
+        long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        int aktualnaDekada = (int)diff/14;
+
+        k.setTime(poczatekProgramu);
+        k.add(Calendar.DAY_OF_MONTH, aktualnaDekada*14);
+        poczatekDekady = k.getTime();
+        k.add(Calendar.DAY_OF_MONTH, 14);
+        koniecDekady = k.getTime();
+
+
+        przyciskiDni();
+    }
+
 }

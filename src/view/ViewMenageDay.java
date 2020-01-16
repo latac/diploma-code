@@ -13,6 +13,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.List;
 
 public class ViewMenageDay extends JFrame{
@@ -36,9 +37,12 @@ public class ViewMenageDay extends JFrame{
     private JButton dodajPosilek;
     private JList listaDni;
     private JList listaPosilkow;
+    private Date wybranyDzien;
 
-    public ViewMenageDay() {
-        super("Danie");
+    public ViewMenageDay(Date dzien) {
+        super("Dzien");
+
+        wybranyDzien = dzien;
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 1000, 600);
         setVisible(true);
@@ -69,7 +73,7 @@ public class ViewMenageDay extends JFrame{
         panel.updateUI();
     }
     private void wierszNumeruDnia() {
-        nazwaDania = new JLabel("Dzień:");
+        nazwaDania = new JLabel(wybranyDzien.toString());
         nazwaDania.setBounds(0, 10, 200, 25);
         panel.add(nazwaDania);
     }
