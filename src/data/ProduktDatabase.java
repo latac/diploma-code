@@ -215,15 +215,7 @@ public class ProduktDatabase {
             statement.setInt(8, produkt.getId());
 
             int result = statement.executeUpdate();
-            if (result == 1) {
-                int candidateId = 0;
-                ResultSet rs = statement.getGeneratedKeys();
-                if (rs.next()) {
-                    candidateId = rs.getInt(1);
-                    wynik = true;
-                }
-                produkt.setId(candidateId);
-            }
+
 
             //zwolnienie zasobów i zamknięcie połączenia
             statement.close();

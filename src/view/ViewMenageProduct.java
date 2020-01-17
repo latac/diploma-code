@@ -7,14 +7,17 @@ import data.ProduktDatabase;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class ViewMenageProduct extends JFrame  {
+public class ViewMenageProduct extends JFrame {
 
     private JPanel panel;
     private JLabel nazwaProduktu;
@@ -38,6 +41,7 @@ public class ViewMenageProduct extends JFrame  {
     private JList listaProduktow;
     private String[] jednostki = {"g", "ml", "szt."};
     private List<Product> arrayOfProducts;
+    private Product wybranyProduktZListy;
     DefaultListModel<String> model;
 
     public ViewMenageProduct() {
@@ -86,7 +90,7 @@ public class ViewMenageProduct extends JFrame  {
         panel.add(podanaWartoscReferencyjna);
 
         jednostka = new JComboBox(jednostki);
-        jednostka.setBounds(400,40,100,25);
+        jednostka.setBounds(400, 40, 100, 25);
         panel.add(jednostka);
 
     }
@@ -154,6 +158,11 @@ public class ViewMenageProduct extends JFrame  {
                 p.setFat(Float.valueOf(podaneTluszcze.getText()));
 
                 DataConnector.Instance().Produkty().UtworzProdukt(p);
+
+                arrayOfProducts.add(p);
+
+                arrayOfProducts.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+                listaProduktow.setListData(arrayOfProducts.toArray());
             }
         });
         panel.add(dodaj);
@@ -165,11 +174,11 @@ public class ViewMenageProduct extends JFrame  {
         usun.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Product p = new Product();
-                p.setName(podanaNazwaProduktu.getText());
-
-
-                DataConnector.Instance().Produkty().Usun(p.getId());
+                if (wybranyProduktZListy != null) {
+                    DataConnector.Instance().Produkty().Usun(wybranyProduktZListy.getId());
+                    arrayOfProducts.remove(wybranyProduktZListy);
+                    listaProduktow.setListData(arrayOfProducts.toArray());
+                }
             }
         });
         panel.add(usun);
@@ -179,6 +188,26 @@ public class ViewMenageProduct extends JFrame  {
 
         aktualizuj = new JButton("aktualizuj");
         aktualizuj.setBounds(300, 200, 100, 25);
+
+        aktualizuj.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (wybranyProduktZListy != null) {
+                    DataConnector.Instance().Produkty().Edytuj(wybranyProduktZListy);
+                    int pozycjaWLIscie = arrayOfProducts.indexOf(wybranyProduktZListy);
+
+                    wybranyProduktZListy.setName(podanaNazwaProduktu.getText());
+                    wybranyProduktZListy.setReferenceValue(Integer.valueOf(podanaWartoscReferencyjna.getText()));
+                    wybranyProduktZListy.setUnitOfMeasurement(jednostka.getSelectedItem().toString());
+                    wybranyProduktZListy.setKcal(Float.valueOf(podanekcal.getText()));
+                    wybranyProduktZListy.setCarbohydrates(Float.valueOf(podaneWeglowodany.getText()));
+                    wybranyProduktZListy.setProtein(Float.valueOf(podaneBialka.getText()));
+                    wybranyProduktZListy.setFat(Float.valueOf(podaneTluszcze.getText()));
+                    //arrayOfProducts.remove(wybranyProduktZListy);
+                    listaProduktow.setListData(arrayOfProducts.toArray());
+                }
+            }
+        });
         panel.add(aktualizuj);
     }
 
@@ -193,35 +222,72 @@ public class ViewMenageProduct extends JFrame  {
         });
         panel.add(wroc);
     }
-    private void wierszListyProduktow() {
 
-        DataConnector connector = DataConnector.Instance();
-        ProduktDatabase produktDatabase = new ProduktDatabase(connector);
-        arrayOfProducts = produktDatabase.PobierzProdukty();
+    public void UstawListe() {
         model = new DefaultListModel<>();
 
-        for(int i = 0; i < arrayOfProducts.size(); i++){
-            model.add(i , arrayOfProducts.get(i).getName());
+         arrayOfProducts.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+
+        for (int i = 0; i < arrayOfProducts.size(); i++) {
+            model.add(i, arrayOfProducts.get(i).getName());
         }
+
+
         listaProduktow = new JList(model);
+        listaProduktow.setBounds(100, 300, 200, 200);
+        listaProduktow.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        //listaProduktow.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+        listaProduktow.setVisibleRowCount(-1);
+//        panel.add(listaProduktow);
+
+        JScrollPane listScroller = new JScrollPane();
+
+
+        listScroller.setViewportView(listaProduktow);
+        listScroller.setVisible(true);
+        listScroller.setBounds(100, 300, 200, 200);
+
+        listScroller.setHorizontalScrollBarPolicy(
+                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        listScroller.setVerticalScrollBarPolicy(
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        listScroller.setPreferredSize(new Dimension(400, 400));
+
+        //list.ensureIndexIsVisible(index);/
+
         listaProduktow.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 int id = listaProduktow.getSelectedIndex();
                 if (id != -1) {
-                    Product produkt = arrayOfProducts.get(id);
-                    podanaNazwaProduktu.setText(produkt.getName());
-                    podanaWartoscReferencyjna.setText(String.valueOf(produkt.getReferenceValue()));
-                    podanekcal.setText(String.valueOf(produkt.getKcal()));
-                    podaneBialka.setText(String.valueOf(produkt.getProtein()));
-                    podaneWeglowodany.setText(String.valueOf(produkt.getCarbohydrates()));
-                    podaneTluszcze.setText(String.valueOf(produkt.getFat()));
-
+                    wybranyProduktZListy = arrayOfProducts.get(id);
+                    podanaNazwaProduktu.setText(wybranyProduktZListy.getName());
+                    podanaWartoscReferencyjna.setText(String.valueOf(wybranyProduktZListy.getReferenceValue()));
+                    podanekcal.setText(String.valueOf(wybranyProduktZListy.getKcal()));
+                    podaneBialka.setText(String.valueOf(wybranyProduktZListy.getProtein()));
+                    podaneWeglowodany.setText(String.valueOf(wybranyProduktZListy.getCarbohydrates()));
+                    podaneTluszcze.setText(String.valueOf(wybranyProduktZListy.getFat()));
+                } else {
+                    wybranyProduktZListy = null;
                 }
             }
         });
-        listaProduktow.setBounds(100,300,300,300);
-        panel.add(listaProduktow);
-}
+        //listScroller.add(listaProduktow);
+        panel.add(listScroller);
+        panel.updateUI();
+        //panel.updateUI();
+
+    }
+
+    private void wierszListyProduktow() {
+
+        DataConnector connector = DataConnector.Instance();
+        ProduktDatabase produktDatabase = new ProduktDatabase(connector);
+        arrayOfProducts = produktDatabase.PobierzProdukty();
+        UstawListe();
+
+
+    }
 
 }
