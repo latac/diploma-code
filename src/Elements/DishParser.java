@@ -22,13 +22,24 @@ public class DishParser {
         return "select * from `dish` where id = ?";
     }
 
+    public String dodajProduktDoDania() {
+        return "insert into `dishingredients` VALUES (?, ?, ?)";
+    }
+    public String usunProduktZDania() {
+        return "delete from `dishingredients` where idDish = ? and idProduct = ?";
+    }
+
+    public String UsunPowiazane() {
+        return "delete from `dishingredients` where idDish = ?";
+    }
+
     public String Usun() {
         return "delete from `dish` where id = ?";
     }
 
 
     public String Edytuj() {
-        return "update `dish` SET VALUES name = ?, kcal = ?, carbohydrate = ?, protein = ?, fat = ? where id = ?";
+        return "update `dish` SET name = ? where id = ?";
     }
     public String PobierzDaniaZPosilku(){
         return "select d.* from mealingredients as mi left join dish as d on mi.idDish = d.id left join meal m on mi.idMeal = m.id where m.id = ?";

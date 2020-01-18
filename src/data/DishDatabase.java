@@ -50,6 +50,48 @@ public class DishDatabase { DataConnector connector;
         return pobraneDanie;
     }
 
+    public void DodajProduktDoDania(int idProdukt, int idDanie, int amountOfProduct) {
+        String query = new DishParser().dodajProduktDoDania();
+
+        try {
+            Class.forName(connector.DBDRIVER).newInstance();
+            connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
+            statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, idDanie);
+            statement.setInt(2, idProdukt);
+            statement.setInt(3, amountOfProduct);
+
+            statement.executeUpdate();
+
+            //zwolnienie zasobów i zamknięcie połączenia
+            statement.close();
+            connection.close();
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    public void UsunProduktZDania(int idProdukt, int idDanie) {
+        String query = new DishParser().usunProduktZDania();
+
+        try {
+            Class.forName(connector.DBDRIVER).newInstance();
+            connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
+            statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, idDanie);
+            statement.setInt(2, idProdukt);
+
+            statement.executeUpdate();
+
+            //zwolnienie zasobów i zamknięcie połączenia
+            statement.close();
+            connection.close();
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
     public List<Dish> PobierzDania() {
         String query = new DishParser().pobierzWszystkie();
         List<Dish> lista = new ArrayList<>();
@@ -144,13 +186,19 @@ public class DishDatabase { DataConnector connector;
     }
 
     public boolean Usun(int id) {
+        String queryPowiazane = new DishParser().UsunPowiazane();
+
         String query = new DishParser().Usun();
-        List<Dish> lista = new ArrayList<>();
         boolean result = false;
 
         try {
             Class.forName(connector.DBDRIVER).newInstance();
             connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
+
+            statement = connection.prepareStatement(queryPowiazane);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+
             statement = connection.prepareStatement(query);
             statement.setInt(1, id);
 
@@ -173,7 +221,6 @@ public class DishDatabase { DataConnector connector;
 
     public boolean Edytuj(Dish danie) {
         String query = new DishParser().Edytuj();
-        List<Dish> lista = new ArrayList<>();
         boolean wynik = false;
 
         try {
@@ -185,16 +232,6 @@ public class DishDatabase { DataConnector connector;
             statement.setInt(2, danie.getId());
 
             int result = statement.executeUpdate();
-            if(result == 1)
-            {
-                int candidateId = 0;
-                ResultSet rs = statement.getGeneratedKeys();
-                if(rs.next()) {
-                    candidateId = rs.getInt(1);
-                    wynik = true;
-                }
-                danie.setId(candidateId);
-            }
 
             //zwolnienie zasobów i zamknięcie połączenia
             statement.close();

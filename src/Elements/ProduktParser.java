@@ -6,16 +6,7 @@ import java.sql.PreparedStatement;
 
 public class ProduktParser {
     public String createSaveQuery(Product article) {
-        String query = "";
-
-        /**
-         * Dodaj do tabeli "articles" wartości id, title i text.
-         * id jest nullem, ponieważ pole id jest autoinkrementowane
-         * przez bazę danych.
-         * INSERT INTO articles VALUES (NULL, 'title', 'text');
-         */
         return "insert into `product` VALUES (null, ?, ?, ?, ?, ?, ?, ?)";
-
     }
 
     public String pobierzWszystkie() {
@@ -35,5 +26,9 @@ public class ProduktParser {
     }
     public String PobierzProduktyZDania(){
         return "select p.*, di.amountOfProduct from dishingredients as di left join product as p on di.idProduct = p.id left join dish d on di.idDish = d.id where d.id = ?";
+    }
+
+    public String UsunPowiazane() {
+        return "delete from `dishingredients` where idProduct = ?";
     }
 }

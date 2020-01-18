@@ -97,6 +97,8 @@ public class Product {
 
     @Override
     public String toString() {
-        return name;
+        return amountOfProduct != 0
+            ? name + " (" + amountOfProduct + " " + unitOfMeasurement + ")"
+            : name;
     }
 }

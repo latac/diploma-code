@@ -3,6 +3,7 @@ package data;
 
 import Elements.Day;
 import Elements.DayParser;
+import Elements.MealParser;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -172,5 +173,48 @@ public class DayDatabase {DataConnector connector;
         }
 
         return wynik;
+    }
+
+
+
+    public void DodajPosilekDoDnia(int idPosilku, Date dzien) {
+        String query = new DayParser().dodajPosilekDoDnia();
+
+        try {
+            Class.forName(connector.DBDRIVER).newInstance();
+            connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
+            statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            statement.setDate(1, dzien);
+            statement.setInt(2, idPosilku);
+
+            statement.executeUpdate();
+
+            //zwolnienie zasobów i zamknięcie połączenia
+            statement.close();
+            connection.close();
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    public void UsunPosilekZDnia(int idPosilku, Date dzien) {
+        String query = new DayParser().usunPosilekZDnia();
+
+        try {
+            Class.forName(connector.DBDRIVER).newInstance();
+            connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
+            statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, idPosilku);
+            statement.setDate(2, dzien);
+
+            statement.executeUpdate();
+
+            //zwolnienie zasobów i zamknięcie połączenia
+            statement.close();
+            connection.close();
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

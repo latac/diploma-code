@@ -30,4 +30,13 @@ public class DayParser {
     public String Edytuj() {
         return "update `day` SET VALUES name = ? where id = ?";
     }
+
+
+
+    public String dodajPosilekDoDnia() {
+        return "insert into `dayingredients` VALUES (?, ?)";
+    }
+    public String usunPosilekZDnia() {
+        return "delete from `dayingredients` where idMeal = ? and idDay = ?";
+    }
 }

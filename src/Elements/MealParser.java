@@ -28,6 +28,18 @@ public class MealParser {
 
 
     public String edytuj() {
-        return "update `meal` SET VALUES name = ? where id = ?";
+        return "update `meal` SET name = ? where id = ?";
     }
+
+    public String UsunPowiazane() {
+        return "delete from `mealingredients` where idMeal = ?";
+    }
+
+    public String dodajDanieDoPosilku() {
+        return "insert into `mealingredients` VALUES (?, ?)";
+    }
+    public String usunDanieZPosilku() {
+        return "delete from `mealingredients` where idMeal = ? and idDish = ?";
+    }
+
 }

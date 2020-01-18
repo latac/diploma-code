@@ -169,6 +169,8 @@ public class ProduktDatabase {
     }
 
     public boolean Usun(int id) {
+        String queryPowiazane = new ProduktParser().UsunPowiazane();
+
         String query = new ProduktParser().Usun();
         List<Product> lista = new ArrayList<>();
         boolean result = false;
@@ -176,6 +178,11 @@ public class ProduktDatabase {
         try {
             Class.forName(connector.DBDRIVER).newInstance();
             connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
+
+            statement = connection.prepareStatement(queryPowiazane);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+
             statement = connection.prepareStatement(query);
             statement.setInt(1, id);
 
@@ -203,6 +210,7 @@ public class ProduktDatabase {
         try {
             Class.forName(connector.DBDRIVER).newInstance();
             connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
+            connection.setAutoCommit(false);
             statement = connection.prepareStatement(query);
 
             statement.setString(1, produkt.getName());
@@ -218,6 +226,7 @@ public class ProduktDatabase {
 
 
             //zwolnienie zasobów i zamknięcie połączenia
+            connection.commit();
             statement.close();
             connection.close();
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {

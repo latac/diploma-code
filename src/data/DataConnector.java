@@ -3,7 +3,7 @@ package data;
 import Elements.Decade;
 
 public class DataConnector {
-    public final static String DBURL = "jdbc:mysql://127.0.0.1:3306/dieta";
+    public final static String DBURL = "jdbc:mysql://127.0.0.1:3306/dieta?useUnicode=yes&characterEncoding=UTF-8";
     public final static String DBUSER = "root";
     public final static String DBPASS = "";
     public final static String DBDRIVER = "com.mysql.jdbc.Driver";

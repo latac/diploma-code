@@ -1,6 +1,8 @@
 package data;
 
 
+import Elements.Dish;
+import Elements.DishParser;
 import Elements.Meal;
 import Elements.MealParser;
 
@@ -8,7 +10,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MealDatabase {    DataConnector connector;
+public class MealDatabase {
+    DataConnector connector;
 
     //obiekt tworzący połączenie z bazą danych.
     private Connection connection;
@@ -111,13 +114,19 @@ public class MealDatabase {    DataConnector connector;
     }
 
     public boolean Usun(int id) {
+        String queryPowiazane = new MealParser().UsunPowiazane();
+
         String query = new MealParser().usun();
-        List<Meal> lista = new ArrayList<>();
         boolean result = false;
 
         try {
             Class.forName(connector.DBDRIVER).newInstance();
             connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
+
+            statement = connection.prepareStatement(queryPowiazane);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+
             statement = connection.prepareStatement(query);
             statement.setInt(1, id);
 
@@ -140,7 +149,6 @@ public class MealDatabase {    DataConnector connector;
 
     public boolean Edytuj(Meal posilek) {
         String query = new MealParser().edytuj();
-        List<Meal> lista = new ArrayList<>();
         boolean wynik = false;
 
         try {
@@ -152,16 +160,7 @@ public class MealDatabase {    DataConnector connector;
             statement.setInt(2, posilek.getId());
 
             int result = statement.executeUpdate();
-            if(result == 1)
-            {
-                int candidateId = 0;
-                ResultSet rs = statement.getGeneratedKeys();
-                if(rs.next()) {
-                    candidateId = rs.getInt(1);
-                    wynik = true;
-                }
-                posilek.setId(candidateId);
-            }
+
 
             //zwolnienie zasobów i zamknięcie połączenia
             statement.close();
@@ -172,5 +171,47 @@ public class MealDatabase {    DataConnector connector;
         }
 
         return wynik;
+    }
+
+
+    public void DodajDanieDoPosilku(int idPosilku, int idDanie) {
+        String query = new MealParser().dodajDanieDoPosilku();
+
+        try {
+            Class.forName(connector.DBDRIVER).newInstance();
+            connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
+            statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, idPosilku);
+            statement.setInt(2, idDanie);
+
+            statement.executeUpdate();
+
+            //zwolnienie zasobów i zamknięcie połączenia
+            statement.close();
+            connection.close();
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    public void UsunDanieZPosilku(int idDanie, int idPosilku) {
+        String query = new MealParser().usunDanieZPosilku();
+
+        try {
+            Class.forName(connector.DBDRIVER).newInstance();
+            connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
+            statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, idDanie);
+            statement.setInt(2, idPosilku);
+
+            statement.executeUpdate();
+
+            //zwolnienie zasobów i zamknięcie połączenia
+            statement.close();
+            connection.close();
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

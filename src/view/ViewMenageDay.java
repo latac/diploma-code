@@ -11,6 +11,7 @@ import data.MealDatabase;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
@@ -35,9 +36,15 @@ public class ViewMenageDay extends JFrame{
     private JButton aktualizuj;
     private JButton wroc;
     private JButton dodajPosilek;
+    private JButton usunPosilek;
     private JList listaDni;
     private JList listaPosilkow;
     private Date wybranyDzien;
+    private JComboBox listaWyboruPosilku;
+    private List<Meal> posilki;
+    private List<Meal> arrayOfMeal;
+    private DefaultListModel<String> model;
+    private Meal wybranyPosilekZListy;
 
     public ViewMenageDay(Date dzien) {
         super("Dzien");
@@ -46,6 +53,8 @@ public class ViewMenageDay extends JFrame{
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 1000, 600);
         setVisible(true);
+
+        posilki = DataConnector.Instance().Meal().PobierzPosilki();
 
         panel = new JPanel();
         panel.setLayout(null);
@@ -62,12 +71,6 @@ public class ViewMenageDay extends JFrame{
         przyciskWroc();
         wierszSzukaniaPosilku();
 
-
-
-        listaPosilkow = new JList();
-        listaPosilkow.setBounds(600, 100, 300, 300);
-
-        panel.add(listaPosilkow);
 
 
         panel.updateUI();
@@ -165,69 +168,137 @@ public class ViewMenageDay extends JFrame{
         podajPosilek.setBounds(600,0,200,25);
         panel.add(podajPosilek);
 
+        listaWyboruPosilku = new JComboBox<>(posilki.toArray());
+        listaWyboruPosilku.setBounds(600, 30, 100, 25);
 
-        znajdzPosilek = new JTextField();
-        znajdzPosilek.setBounds(600, 30, 200, 25);
-        panel.add(znajdzPosilek);
-
+        panel.add(listaWyboruPosilku);
 
         dodajPosilek = new JButton("+");
         dodajPosilek.setBounds(900,30,50,25);
-        panel.add(dodajPosilek);
-    }
-
-
-
-    private void wierszZListyPosilkow(List<Meal> posilki) {
-        panel.remove(listaPosilkow);
-        DefaultListModel<Meal> model = new DefaultListModel<>();
-
-        for (int i = 0; i < posilki.size(); i++) {
-            model.add(i, posilki.get(i));
-        }
-        listaPosilkow = new JList(model);
-        listaPosilkow.setBounds(600, 100, 300, 300);
-        panel.add(listaPosilkow);
-
-        listaDni.addListSelectionListener(new ListSelectionListener() {
+        dodajPosilek.addActionListener(new ActionListener() {
             @Override
-            public void valueChanged(ListSelectionEvent e) {
-                int id = listaDni.getSelectedIndex();
-                if (id != -1) {
-                    wierszZListyPosilkow(posilki);
+            public void actionPerformed(ActionEvent e) {
+                int idMeal = wybranyPosilekZListy.getId();
 
-                    float sumaKalorii = 0f;
-                    float sumaBialek = 0f;
-                    float sumaWeglowodanow = 0f;
-                    float sumaTluszczy = 0f;
+                DataConnector.Instance().Day().DodajPosilekDoDnia(idMeal, java.sql.Date.valueOf(wybranyDzien.toString()));
+                posilki.add(wybranyPosilekZListy);
 
-                    for (Meal m: posilki) {
-                        int idPosilku = m.getId();
-                        List<Dish> dania = DataConnector.Instance().Dish().PobierzDaniaZPosilku(idPosilku);
+                List<Dish> dania = DataConnector.Instance().Dish().PobierzDaniaZPosilku(wybranyPosilekZListy.getId());
 
-                        for (Dish d : dania) {
-                            int idDania = d.getId();
-                            List<Product> produkty = DataConnector.Instance().Produkty().PobierzProduktyZDania(idDania);
-                            for (Product p : produkty) {
-                                sumaKalorii += p.getKcal();
-                                sumaBialek += p.getProtein();
-                                sumaWeglowodanow += p.getCarbohydrates();
-                                sumaTluszczy += p.getFat();
-                            }
+                float sumaKalorii = Float.valueOf(wyliczoneKcal.getText());
+                float sumaBialek = Float.valueOf(wyliczoneBialka.getText());
+                float sumaWeglowodanow = Float.valueOf(wyliczoneWeglowodany.getText());
+                float sumaTluszczy = Float.valueOf(wyliczoneTluszcze.getText());
 
-                        }
+                for (Dish d : dania) {
+                    List<Product> produkty = DataConnector.Instance().Produkty().PobierzProduktyZDania(d.getId());
+
+                    for (Product p : produkty) {
+                        sumaKalorii += p.getKcal() * p.wyliczIloscProduktu();
+                        sumaBialek += p.getProtein() * p.wyliczIloscProduktu();
+                        sumaWeglowodanow += p.getCarbohydrates() * p.wyliczIloscProduktu();
+                        sumaTluszczy += p.getFat() * p.wyliczIloscProduktu();
                     }
+                }
+                wyliczoneKcal.setText(String.valueOf(sumaKalorii));
+                wyliczoneBialka.setText(String.valueOf(sumaBialek));
+                wyliczoneWeglowodany.setText(String.valueOf(sumaWeglowodanow));
+                wyliczoneTluszcze.setText(String.valueOf(sumaTluszczy));
 
+
+                listaPosilkow.setListData(posilki.toArray());
+            }
+        });
+        panel.add(dodajPosilek);
+
+        usunPosilek = new JButton("-");
+        usunPosilek.setBounds(950,30,50,25);
+        usunPosilek.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (danieDoUsuniecia != null) {
+                    DataConnector.Instance().Meal().UsunDanieZPosilku(danieDoUsuniecia.getId(), wybranyPosilekZListy.getId());
+
+                    List<Product> produkty = DataConnector.Instance().Produkty().PobierzProduktyZDania(danieDoUsuniecia.getId());
+
+                    float sumaKalorii = Float.valueOf(wyliczoneKcal.getText());
+                    float sumaBialek = Float.valueOf(wyliczoneBialka.getText());
+                    float sumaWeglowodanow = Float.valueOf(wyliczoneWeglowodany.getText());
+                    float sumaTluszczy = Float.valueOf(wyliczoneTluszcze.getText());
+
+                    for (Product p : produkty) {
+                        sumaKalorii -= p.getKcal() * p.wyliczIloscProduktu();
+                        sumaBialek -= p.getProtein() * p.wyliczIloscProduktu();
+                        sumaWeglowodanow -= p.getCarbohydrates() * p.wyliczIloscProduktu();
+                        sumaTluszczy -= p.getFat() * p.wyliczIloscProduktu();
+                    }
 
                     wyliczoneKcal.setText(String.valueOf(sumaKalorii));
                     wyliczoneBialka.setText(String.valueOf(sumaBialek));
                     wyliczoneWeglowodany.setText(String.valueOf(sumaWeglowodanow));
                     wyliczoneTluszcze.setText(String.valueOf(sumaTluszczy));
+
+
+                    listaDanWPosilku.remove(danieDoUsuniecia);
+
+                    listaDan.setListData(listaDanWPosilku.toArray());
+                    danieDoUsuniecia = null;
                 }
             }
         });
+        panel.add(usunPosilek);
+    }
 
-        listaPosilkow.updateUI();
+
+    public void UstawListe() {
+        model = new DefaultListModel<>();
+
+        arrayOfMeal.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+
+        for (int i = 0; i < arrayOfMeal.size(); i++) {
+            model.add(i, arrayOfMeal.get(i).getName());
+        }
+
+
+        listaPosilkow = new JList(model);
+        listaPosilkow.setBounds(100, 300, 200, 200);
+        listaPosilkow.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        listaPosilkow.setVisibleRowCount(-1);
+
+        JScrollPane listScroller = new JScrollPane();
+
+
+        listScroller.setViewportView(listaPosilkow);
+        listScroller.setVisible(true);
+        listScroller.setBounds(100, 300, 200, 200);
+
+        listScroller.setHorizontalScrollBarPolicy(
+                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        listScroller.setVerticalScrollBarPolicy(
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        listScroller.setPreferredSize(new Dimension(400, 400));
+
+        listaPosilkow.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int id = listaPosilkow.getSelectedIndex();
+                if (id != -1) {
+                    wybranyPosilekZListy = arrayOfMeal.get(id);
+                } else
+                    wybranyPosilekZListy = null;
+            }
+        });
+
+        panel.add(listScroller);
         panel.updateUI();
+    }
+
+    private void wierszZListyPosilkow(List<Meal> posilki) {
+        DataConnector connector = DataConnector.Instance();
+        MealDatabase posilekDatabase = new MealDatabase(connector);
+        arrayOfMeal = posilekDatabase.PobierzPosilki();
+        UstawListe();
+
     }
 }

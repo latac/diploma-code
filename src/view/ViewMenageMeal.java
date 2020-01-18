@@ -10,6 +10,7 @@ import data.MealDatabase;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -34,15 +35,24 @@ public class ViewMenageMeal extends JFrame {
     private JButton aktualizuj;
     private JButton wroc;
     private JButton dodajDanie;
+    private JButton usunDanie;
     private JList listaPosilkow;
     private JList listaDan;
     private List<Meal> arrayOfMeal;
+    private Meal wybranyPosilekZListy;
+    private List<Dish> dania;
+    private JComboBox listaWyboruDania;
+    private DefaultListModel<String> model;
+    private List<Dish> listaDanWPosilku;;
+    private Dish danieDoUsuniecia;
 
 
     public ViewMenageMeal() {
         super("Posiłek");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setBounds(100, 100, 1000, 600);
+        setBounds(100, 100, 1100, 600);
+
+        dania = DataConnector.Instance().Dish().PobierzDania();
         setVisible(true);
 
         panel = new JPanel();
@@ -60,12 +70,7 @@ public class ViewMenageMeal extends JFrame {
         przyciskWroc();
         wierszSzukaniaDania();
         wierszListyPosilkow();
-
-
-        listaDan = new JList();
-        listaDan.setBounds(600, 100, 300, 300);
-
-        panel.add(listaDan);
+        wierszZListaDan();
 
         panel.updateUI();
     }
@@ -130,12 +135,37 @@ public class ViewMenageMeal extends JFrame {
     private void przyciskDodaj() {
         dodaj = new JButton("dodaj");
         dodaj.setBounds(100, 200, 100, 25);
+        dodaj.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Meal d = new Meal();
+                d.setName(podanaNazwaPosilku.getText());
+
+                DataConnector.Instance().Meal().UtworzPosilek(d);
+
+                arrayOfMeal.add(d);
+
+                arrayOfMeal.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+                listaPosilkow.setListData(arrayOfMeal.toArray());
+            }
+        });
         panel.add(dodaj);
     }
 
     private void przyciskUsun() {
         usun = new JButton("usuń");
         usun.setBounds(200, 200, 100, 25);
+
+        usun.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (wybranyPosilekZListy != null) {
+                    DataConnector.Instance().Meal().Usun(wybranyPosilekZListy.getId());
+                    arrayOfMeal.remove(wybranyPosilekZListy);
+                    listaPosilkow.setListData(arrayOfMeal.toArray());
+                }
+            }
+        });
         panel.add(usun);
     }
 
@@ -143,6 +173,19 @@ public class ViewMenageMeal extends JFrame {
 
         aktualizuj = new JButton("aktualizuj");
         aktualizuj.setBounds(300, 200, 100, 25);
+        aktualizuj.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (wybranyPosilekZListy != null) {
+                    int pozycjaWLIscie = arrayOfMeal.indexOf(wybranyPosilekZListy);
+
+                    wybranyPosilekZListy.setName(podanaNazwaPosilku.getText());
+
+                    DataConnector.Instance().Meal().Edytuj(wybranyPosilekZListy);
+                    listaPosilkow.setListData(arrayOfMeal.toArray());
+                }
+            }
+        });
         panel.add(aktualizuj);
     }
 
@@ -164,28 +207,113 @@ public class ViewMenageMeal extends JFrame {
         panel.add(podajNazweDania);
 
 
-        znajdzDanie = new JTextField();
-        znajdzDanie.setBounds(600, 30, 200, 25);
-        panel.add(znajdzDanie);
+        listaWyboruDania = new JComboBox<>(dania.toArray());
+        listaWyboruDania.setBounds(600, 30, 100, 25);
+
+        panel.add(listaWyboruDania);
 
         dodajDanie = new JButton("+");
         dodajDanie.setBounds(900,30,50,25);
+        dodajDanie.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int idPosilku = wybranyPosilekZListy.getId();
+                Dish wybraneDanie = dania.get(listaWyboruDania.getSelectedIndex());
+                int idDania = wybraneDanie.getId();
+                DataConnector.Instance().Meal().DodajDanieDoPosilku(idPosilku, idDania);
+                listaDanWPosilku.add(wybraneDanie);
+
+                List<Product> produkty = DataConnector.Instance().Produkty().PobierzProduktyZDania(idDania);
+
+                float sumaKalorii = Float.valueOf(wyliczoneKcal.getText());
+                float sumaBialek = Float.valueOf(wyliczoneBialka.getText());
+                float sumaWeglowodanow = Float.valueOf(wyliczoneWeglowodany.getText());
+                float sumaTluszczy = Float.valueOf(wyliczoneTluszcze.getText());
+
+                for (Product p : produkty) {
+                    sumaKalorii += p.getKcal() * p.wyliczIloscProduktu();
+                    sumaBialek += p.getProtein() * p.wyliczIloscProduktu();
+                    sumaWeglowodanow += p.getCarbohydrates() * p.wyliczIloscProduktu();
+                    sumaTluszczy += p.getFat() * p.wyliczIloscProduktu();
+                }
+
+                wyliczoneKcal.setText(String.valueOf(sumaKalorii));
+                wyliczoneBialka.setText(String.valueOf(sumaBialek));
+                wyliczoneWeglowodany.setText(String.valueOf(sumaWeglowodanow));
+                wyliczoneTluszcze.setText(String.valueOf(sumaTluszczy));
+
+
+                listaDan.setListData(listaDanWPosilku.toArray());
+            }
+        });
         panel.add(dodajDanie);
+
+        usunDanie = new JButton("-");
+        usunDanie.setBounds(950,30,50,25);
+        usunDanie.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (danieDoUsuniecia != null) {
+                    DataConnector.Instance().Meal().UsunDanieZPosilku(danieDoUsuniecia.getId(), wybranyPosilekZListy.getId());
+
+                    List<Product> produkty = DataConnector.Instance().Produkty().PobierzProduktyZDania(danieDoUsuniecia.getId());
+
+                    float sumaKalorii = Float.valueOf(wyliczoneKcal.getText());
+                    float sumaBialek = Float.valueOf(wyliczoneBialka.getText());
+                    float sumaWeglowodanow = Float.valueOf(wyliczoneWeglowodany.getText());
+                    float sumaTluszczy = Float.valueOf(wyliczoneTluszcze.getText());
+
+                    for (Product p : produkty) {
+                        sumaKalorii -= p.getKcal() * p.wyliczIloscProduktu();
+                        sumaBialek -= p.getProtein() * p.wyliczIloscProduktu();
+                        sumaWeglowodanow -= p.getCarbohydrates() * p.wyliczIloscProduktu();
+                        sumaTluszczy -= p.getFat() * p.wyliczIloscProduktu();
+                    }
+
+                    wyliczoneKcal.setText(String.valueOf(sumaKalorii));
+                    wyliczoneBialka.setText(String.valueOf(sumaBialek));
+                    wyliczoneWeglowodany.setText(String.valueOf(sumaWeglowodanow));
+                    wyliczoneTluszcze.setText(String.valueOf(sumaTluszczy));
+
+
+                    listaDanWPosilku.remove(danieDoUsuniecia);
+
+                    listaDan.setListData(listaDanWPosilku.toArray());
+                    danieDoUsuniecia = null;
+                }
+            }
+        });
+        panel.add(usunDanie);
     }
 
-    private void wierszListyPosilkow(){
+    public void UstawListe() {
+        model = new DefaultListModel<>();
 
-
-        DataConnector connector = DataConnector.Instance();
-        MealDatabase posilekDatabase = new MealDatabase(connector);
-        arrayOfMeal = posilekDatabase.PobierzPosilki();
-        DefaultListModel<Meal> model = new DefaultListModel<>();
+        arrayOfMeal.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
 
         for (int i = 0; i < arrayOfMeal.size(); i++) {
-            model.add(i, arrayOfMeal.get(i));
+            model.add(i, arrayOfMeal.get(i).getName());
         }
+
+
         listaPosilkow = new JList(model);
-        listaPosilkow.setBounds(100, 300, 300, 300);
+        listaPosilkow.setBounds(100, 300, 200, 200);
+        listaPosilkow.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        listaPosilkow.setVisibleRowCount(-1);
+
+        JScrollPane listScroller = new JScrollPane();
+
+
+        listScroller.setViewportView(listaPosilkow);
+        listScroller.setVisible(true);
+        listScroller.setBounds(100, 300, 200, 200);
+
+        listScroller.setHorizontalScrollBarPolicy(
+                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        listScroller.setVerticalScrollBarPolicy(
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        listScroller.setPreferredSize(new Dimension(400, 400));
 
         listaPosilkow.addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -193,52 +321,90 @@ public class ViewMenageMeal extends JFrame {
                 int id = listaPosilkow.getSelectedIndex();
                 if (id != -1) {
                     int idMeal = arrayOfMeal.get(id).getId();
-                    List<Dish> dania = DataConnector.Instance().Dish().PobierzDaniaZPosilku(idMeal);
-                    wierszZListaDan(dania);
+                    listaDanWPosilku = DataConnector.Instance().Dish().PobierzDaniaZPosilku(idMeal);
 
-                    Meal posilek = arrayOfMeal.get(id);
+                    wybranyPosilekZListy = arrayOfMeal.get(id);
                     float sumaKalorii = 0f;
                     float sumaBialek = 0f;
                     float sumaWeglowodanow = 0f;
                     float sumaTluszczy = 0f;
 
-                    for (Dish d: dania) {
-                        int idDania = d.getId();
-                        List<Product> produkty = DataConnector.Instance().Produkty().PobierzProduktyZDania(idDania);
-                        for (Product p : produkty) {
-                            sumaKalorii += p.getKcal();
-                            sumaBialek += p.getProtein();
-                            sumaWeglowodanow += p.getCarbohydrates();
-                            sumaTluszczy += p.getFat();
+                    for (Dish d : listaDanWPosilku) {
+                        List<Product> produktyWDaniu = DataConnector.Instance().Produkty().PobierzProduktyZDania(d.getId());
+                        for (Product p : produktyWDaniu) {
+                            sumaKalorii += p.getKcal() * p.wyliczIloscProduktu();
+                            sumaBialek += p.getProtein() * p.wyliczIloscProduktu();
+                            sumaWeglowodanow += p.getCarbohydrates() * p.wyliczIloscProduktu();
+                            sumaTluszczy += p.getFat() * p.wyliczIloscProduktu();
                         }
-
                     }
-
-                    podanaNazwaPosilku.setText(posilek.getName());
+                    podanaNazwaPosilku.setText(wybranyPosilekZListy.getName());
                     wyliczoneKcal.setText(String.valueOf(sumaKalorii));
                     wyliczoneBialka.setText(String.valueOf(sumaBialek));
                     wyliczoneWeglowodany.setText(String.valueOf(sumaWeglowodanow));
                     wyliczoneTluszcze.setText(String.valueOf(sumaTluszczy));
+
+                    listaDan.setListData(listaDanWPosilku.toArray());
                 }
             }
         });
 
-        panel.add(listaPosilkow);
+        panel.add(listScroller);
+        panel.updateUI();
+    }
+
+    private void wierszListyPosilkow(){
+
+        DataConnector connector = DataConnector.Instance();
+        MealDatabase posilekDatabase = new MealDatabase(connector);
+        arrayOfMeal = posilekDatabase.PobierzPosilki();
+        UstawListe();
+
 
     }
 
-    private void wierszZListaDan(List<Dish> dania) {
-        panel.remove(listaDan);
+    private void wierszZListaDan() {
         DefaultListModel<Dish> model = new DefaultListModel<>();
 
-        for (int i = 0; i < dania.size(); i++) {
-            model.add(i, dania.get(i));
+        if (listaDanWPosilku != null) {
+            for (int i = 0; i < listaDanWPosilku.size(); i++) {
+                model.add(i, listaDanWPosilku.get(i));
+            }
         }
         listaDan = new JList(model);
         listaDan.setBounds(600, 100, 300, 300);
-        panel.add(listaDan);
 
-        listaDan.updateUI();
+        listaDan.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        listaDan.setVisibleRowCount(-1);
+
+        JScrollPane listScroller = new JScrollPane();
+
+
+        listScroller.setViewportView(listaDan);
+        listScroller.setVisible(true);
+
+        listScroller.setBounds(600, 100, 300, 300);
+
+        listScroller.setHorizontalScrollBarPolicy(
+                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        listScroller.setVerticalScrollBarPolicy(
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        listScroller.setPreferredSize(new Dimension(400, 400));
+
+        listaDan.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int id = listaDan.getSelectedIndex();
+                if (id != -1) {
+                    danieDoUsuniecia = listaDanWPosilku.get(id);
+                } else {
+                    danieDoUsuniecia = null;
+                }
+            }
+        });
+        panel.add(listScroller);
+        listScroller.updateUI();
         panel.updateUI();
     }
 }

@@ -193,7 +193,6 @@ public class ViewMenageProduct extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (wybranyProduktZListy != null) {
-                    DataConnector.Instance().Produkty().Edytuj(wybranyProduktZListy);
                     int pozycjaWLIscie = arrayOfProducts.indexOf(wybranyProduktZListy);
 
                     wybranyProduktZListy.setName(podanaNazwaProduktu.getText());
@@ -203,6 +202,8 @@ public class ViewMenageProduct extends JFrame {
                     wybranyProduktZListy.setCarbohydrates(Float.valueOf(podaneWeglowodany.getText()));
                     wybranyProduktZListy.setProtein(Float.valueOf(podaneBialka.getText()));
                     wybranyProduktZListy.setFat(Float.valueOf(podaneTluszcze.getText()));
+
+                    DataConnector.Instance().Produkty().Edytuj(wybranyProduktZListy);
                     //arrayOfProducts.remove(wybranyProduktZListy);
                     listaProduktow.setListData(arrayOfProducts.toArray());
                 }
