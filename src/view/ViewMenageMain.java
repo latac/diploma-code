@@ -1,7 +1,5 @@
 package view;
 
-import Elements.Product;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,7 +8,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -71,7 +68,7 @@ public class ViewMenageMain extends JFrame {
         przyciskProdukt();
         przyciskDanie();
         przyciskPosilek();
-        przyciskOrganizacji();
+        przyciskNormy();
         przyciskZapisz();
         wierszKcal();
         wierszBialka();
@@ -123,8 +120,8 @@ public class ViewMenageMain extends JFrame {
 
     }
 
-    private void przyciskOrganizacji(){
-        organizacja = new JButton("Organizacyjna");
+    private void przyciskNormy(){
+        organizacja = new JButton("Norma");
         organizacja.setBounds(400, 0, 150, 25);
         organizacja.addActionListener(new ActionListener() {
             @Override

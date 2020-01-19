@@ -46,7 +46,7 @@ public class ViewMenageDay extends JFrame{
     private DefaultListModel<String> model;
     private Meal wybranyPosilekZListy;
 
-    public ViewMenageDay(Date dzien) {
+  /*  public ViewMenageDay(Date dzien) {
         super("Dzien");
 
         wybranyDzien = dzien;
@@ -214,7 +214,7 @@ public class ViewMenageDay extends JFrame{
         usunPosilek = new JButton("-");
         usunPosilek.setBounds(950,30,50,25);
         usunPosilek.addActionListener(new ActionListener() {
-            @Override
+           @Override
             public void actionPerformed(ActionEvent e) {
                 if (danieDoUsuniecia != null) {
                     DataConnector.Instance().Meal().UsunDanieZPosilku(danieDoUsuniecia.getId(), wybranyPosilekZListy.getId());
@@ -300,5 +300,5 @@ public class ViewMenageDay extends JFrame{
         arrayOfMeal = posilekDatabase.PobierzPosilki();
         UstawListe();
 
-    }
+    }*/
 }
