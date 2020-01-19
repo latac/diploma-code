@@ -1,6 +1,14 @@
 package view;
 
+import Elements.Dish;
+import Elements.Meal;
+import Elements.Norma;
+import Elements.Product;
+import data.DataConnector;
+
 import javax.swing.*;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +20,7 @@ import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -317,7 +326,7 @@ public class ViewMenageMain extends JFrame {
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 Date dzien = new Date(aktualnaData.getYear(), wybranyMiesiacLiczba, finalPrawidlowyNumerDnia);
 
-                                new ViewMenageDay(dzien).setVisible(true);
+                                new ViewMenageDay(dzien,akcjaZamknieciaOkna()).setVisible(true);
                             }
                             if (e.getButton() == MouseEvent.BUTTON3) {
                                 // aktualna dekada w konstruktorze
@@ -357,13 +366,32 @@ public class ViewMenageMain extends JFrame {
         panel.updateUI();
     }
 
+    private AncestorListener akcjaZamknieciaOkna() {
+        return new AncestorListener() {
+            @Override
+            public void ancestorAdded(AncestorEvent event) {
+
+            }
+
+            @Override
+            public void ancestorRemoved(AncestorEvent event) {
+                wyliczNormeDlaDekady();
+            }
+
+            @Override
+            public void ancestorMoved(AncestorEvent event) {
+
+            }
+        };
+    }
+
     public void  UstawAktualnaDekade(Date dzien) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
         Calendar k = Calendar.getInstance();
 
         long diffInMillies = Math.abs(dzien.getTime() - poczatekProgramu.getTime());
         long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-        int aktualnaDekada = (int)diff/14;
+        int aktualnaDekada = ((int)diff + 1)/14;
 
         k.setTime(poczatekProgramu);
         k.add(Calendar.DAY_OF_MONTH, aktualnaDekada*14);
@@ -371,8 +399,65 @@ public class ViewMenageMain extends JFrame {
         k.add(Calendar.DAY_OF_MONTH, 14);
         koniecDekady = k.getTime();
 
+        wyliczNormeDlaDekady();
 
         przyciskiDni();
+    }
+
+    public void wyliczNormeDlaDekady() {
+        int iloscDni = 14;
+        int iloscSwiat = DataConnector.Instance().Day().IleSwiat(poczatekDekady, koniecDekady);
+        int iloscDniDoZliczenia = iloscDni - iloscSwiat;
+        float sumaKalorii = 0;
+        float sumaBialek = 0;
+        float sumaWeglowodanow = 0;
+        float sumaTluszczy = 0;
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(poczatekDekady);
+        Date aktualnyDzienZDekady;
+
+        List<Meal> posilki;
+
+
+        for (int i = 0; i < iloscDni; i++)
+        {
+            aktualnyDzienZDekady = c.getTime();
+            posilki = DataConnector.Instance().Meal().PobierzPosilekZDnia(new java.sql.Date(aktualnyDzienZDekady.getTime()));
+
+            for (Meal m : posilki) {
+                java.util.List<Dish> dania = DataConnector.Instance().Dish().PobierzDaniaZPosilku(m.getId());
+
+                for (Dish d : dania) {
+                    List<Product> produkty = DataConnector.Instance().Produkty().PobierzProduktyZDania(d.getId());
+
+                    for (Product p : produkty) {
+                        sumaKalorii += p.getKcal() * p.wyliczIloscProduktu();
+                        sumaBialek += p.getProtein() * p.wyliczIloscProduktu();
+                        sumaWeglowodanow += p.getCarbohydrates() * p.wyliczIloscProduktu();
+                        sumaTluszczy += p.getFat() * p.wyliczIloscProduktu();
+                    }
+                }
+            }
+
+            c.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+        UstawTeksty(sumaKalorii, sumaBialek, sumaWeglowodanow, sumaTluszczy, iloscDniDoZliczenia);
+    }
+
+    public void UstawTeksty(float sumaKalorii, float sumaBialek, float sumaWeglowodanow, float sumaTluszczy, int iloscDni) {
+        Norma norma = new Norma();
+
+        wyliczoneKcal.setText(String.format("%.3f", sumaKalorii));
+        wyliczoneBialka.setText(String.format("%.3f", sumaBialek));
+        wyliczoneWeglowodany.setText(String.format("%.3f", sumaWeglowodanow));
+        wyliczoneTluszcze.setText(String.format("%.3f", sumaTluszczy));
+
+        wyliczoneKcal.setForeground(norma.czyKcalWPrzedziale(sumaKalorii/iloscDni) ? Color.GREEN : Color.RED);
+        wyliczoneBialka.setForeground(norma.czyProteinWPrzedziale(sumaBialek/iloscDni) ? Color.GREEN : Color.RED);
+        wyliczoneWeglowodany.setForeground(norma.czyCarbohydratesWPrzedziale(sumaWeglowodanow/iloscDni) ? Color.GREEN : Color.RED);
+        wyliczoneTluszcze.setForeground(norma.czyFatWPrzedziale(sumaTluszczy/iloscDni) ? Color.GREEN : Color.RED);
     }
 
 }

@@ -19,7 +19,7 @@ public class DayParser {
     }
 
     public String pobierzJeden() {
-        return "select * from `day` where id = ?";
+        return "select idMeal, m.name from `dayingredients` left join `meal` m on m.id = idMeal where idDay = ? ";
     }
 
     public String Usun() {
@@ -38,5 +38,16 @@ public class DayParser {
     }
     public String usunPosilekZDnia() {
         return "delete from `dayingredients` where idMeal = ? and idDay = ?";
+    }
+
+    public String DodajSwieto() { return "insert into `dayholiday` VALUES (?)";}
+    public String UsunSwieto() { return "delete from `dayholiday` where holiday = ?";}
+
+    public String IleSwiat() {
+        return "select COUNT(*) from `dayholiday` where holiday between ? and ?";
+    }
+
+    public String CzyJestemSwietem() {
+        return "select COUNT(*) from `dayholiday` where holiday = ?";
     }
 }

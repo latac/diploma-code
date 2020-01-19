@@ -53,6 +53,8 @@ public class ViewMenageMeal extends JFrame {
         setBounds(100, 100, 1100, 600);
 
         dania = DataConnector.Instance().Dish().PobierzDania();
+        dania.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+
         setVisible(true);
 
         panel = new JPanel();

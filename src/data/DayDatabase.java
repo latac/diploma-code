@@ -21,14 +21,14 @@ public class DayDatabase {DataConnector connector;
         this.connector = connector;
     }
 
-    public Day PobierzDzien(int id) {
+    public Day PobierzDzien(Date dzien) {
         String query = new DayParser().pobierzJeden();
         Day pobranyDzien = new Day();
         try {
             Class.forName(connector.DBDRIVER).newInstance();
             connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
             statement = connection.prepareStatement(query);
-            statement.setInt(1, id);
+            statement.setDate(1, dzien);
             ResultSet result = statement.executeQuery(query);
 
 
@@ -216,5 +216,104 @@ public class DayDatabase {DataConnector connector;
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+
+
+    public void DodajSwieto(Date dzien) {
+        String query = new DayParser().DodajSwieto();
+
+        try {
+            Class.forName(connector.DBDRIVER).newInstance();
+            connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
+            statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            statement.setDate(1, dzien);
+            int result = statement.executeUpdate();
+
+            //zwolnienie zasobów i zamknięcie połączenia
+            statement.close();
+            connection.close();
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+    public void UsunSwieto(Date dzien) {
+        String query = new DayParser().UsunSwieto();
+
+        try {
+            Class.forName(connector.DBDRIVER).newInstance();
+            connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
+            statement = connection.prepareStatement(query);
+            statement.setDate(1, dzien);
+
+            int resultStatement = statement.executeUpdate();
+
+            //zwolnienie zasobów i zamknięcie połączenia
+            statement.close();
+            connection.close();
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+    public int IleSwiat(java.util.Date poczatekDekady, java.util.Date koniecDekady) {
+        String query = new DayParser().IleSwiat();
+        int iloscSwiat = 0;
+        Date poczatek = new Date(poczatekDekady.getTime());
+        Date koniec = new Date(koniecDekady.getTime());
+
+        try {
+            Class.forName(connector.DBDRIVER).newInstance();
+            connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
+            statement = connection.prepareStatement(query);
+            statement.setDate(1, poczatek);
+            statement.setDate(2, koniec);
+            ResultSet result = statement.executeQuery();
+
+
+            while (result.next()) {
+                iloscSwiat = result.getInt(1);
+            }
+            //zwolnienie zasobów i zamknięcie połączenia
+            statement.close();
+            connection.close();
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException  | SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return iloscSwiat;
+    }
+
+    public boolean CzyJestemSwietem(Date date) {
+        String query = new DayParser().CzyJestemSwietem();
+        boolean jestemSwietem = false;
+
+        try {
+            Class.forName(connector.DBDRIVER).newInstance();
+            connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
+            statement = connection.prepareStatement(query);
+            statement.setDate(1, date);
+            ResultSet result = statement.executeQuery();
+
+
+            while (result.next()) {
+                int ilosc = result.getInt(1);
+                jestemSwietem = ilosc == 1;
+            }
+            //zwolnienie zasobów i zamknięcie połączenia
+            statement.close();
+            connection.close();
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException  | SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return jestemSwietem;
     }
 }

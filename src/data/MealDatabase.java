@@ -1,10 +1,7 @@
 package data;
 
 
-import Elements.Dish;
-import Elements.DishParser;
-import Elements.Meal;
-import Elements.MealParser;
+import Elements.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -207,6 +204,55 @@ public class MealDatabase {
             statement.executeUpdate();
 
             //zwolnienie zasobów i zamknięcie połączenia
+            statement.close();
+            connection.close();
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public List<Meal> PobierzPosilekZDnia(Date dzien) {
+        String query = new DayParser().pobierzJeden();
+        List<Meal> pobraneDania = new ArrayList<>();
+        try {
+            Class.forName(connector.DBDRIVER).newInstance();
+            connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
+            statement = connection.prepareStatement(query);
+            statement.setDate(1, dzien);
+            ResultSet result = statement.executeQuery();
+
+            Meal pobranyPosilek;
+            while (result.next()) {
+                pobranyPosilek = new Meal();
+                // Get the values from the current row...
+                pobranyPosilek.setId(result.getInt(1));
+                pobranyPosilek.setName(result.getString(2));
+                pobraneDania.add(pobranyPosilek);
+            }
+            //zwolnienie zasobów i zamknięcie połączenia
+            statement.close();
+            connection.close();
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException  | SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return pobraneDania;
+    }
+
+    public void UsunPosilekZDnia(int idMeal, Date date) {
+        String query = new DayParser().usunPosilekZDnia();
+
+        try {
+            Class.forName(connector.DBDRIVER).newInstance();
+            connection = DriverManager.getConnection(connector.DBURL, connector.DBUSER, connector.DBPASS);
+
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, idMeal);
+            statement.setDate(2, date);
+            statement.executeUpdate();
+
             statement.close();
             connection.close();
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {

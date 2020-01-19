@@ -5,6 +5,7 @@ public class Norma {
     private float protein;
     private float carbohydrates;
     private float fat;
+    private float marginesBledu = 0.05f;
 
     public Norma() {
         this.kcal = 980;
@@ -28,5 +29,17 @@ public class Norma {
     public float getFat() {
         return fat;
     }
+
+    public boolean czyKcalWPrzedziale(float kcal) { return this.kcal - marginesBledu*this.kcal < kcal && kcal < this.kcal + marginesBledu*this.kcal; }
+    public boolean czyProteinWPrzedziale(float protein) { return this.protein - marginesBledu*this.protein < protein && protein < this.protein + marginesBledu*this.protein; }
+    public boolean czyCarbohydratesWPrzedziale(float carbohydrates) { return this.carbohydrates - marginesBledu*this.carbohydrates < carbohydrates && carbohydrates < this.carbohydrates + marginesBledu*this.carbohydrates; }
+    public boolean czyFatWPrzedziale(float fat) {
+        return this.fat - marginesBledu*this.fat < fat && kcal < this.fat + marginesBledu*this.fat;
+    }
+
+
+
+
+
 
 }

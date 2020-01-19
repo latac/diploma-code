@@ -60,6 +60,7 @@ public class ViewMenageDish extends JFrame {
         panel = new JPanel();
         panel.setLayout(null);
         produkty = DataConnector.Instance().Produkty().PobierzProdukty();
+        produkty.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
 
         add(panel);
         wierszNazwyDania();
