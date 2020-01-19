@@ -46,6 +46,12 @@ public class ViewMenageWorker extends JFrame  {
     private void przyciskOK(){
         ok = new JButton("ok");
         ok.setBounds(150,400,100,25);
+        ok.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
         panel.add(ok);
     }
 

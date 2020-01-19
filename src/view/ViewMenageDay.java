@@ -29,15 +29,9 @@ public class ViewMenageDay extends JFrame{
     private JLabel tluszcze;
     private JLabel wyliczoneTluszcze;
     private JLabel podajPosilek;
-    private JTextField znajdzPosilek;
-    private JButton szukaj;
-    private JButton dodaj;
-    private JButton usun;
-    private JButton aktualizuj;
     private JButton wroc;
     private JButton dodajPosilek;
     private JButton usunPosilek;
-    private JList listaDni;
     private JList listaPosilkow;
     private Date wybranyDzien;
     private JComboBox listaWyboruPosilku;
@@ -67,10 +61,6 @@ public class ViewMenageDay extends JFrame{
         wierszBialka();
         wierszWeglowodanow();
         wierszTluszczy();
-        przyciskAktualizuj();
-        przyciskDodaj();
-        przyciskSzukaj();
-        przyciskUsun();
         przyciskWroc();
         wierszSzukaniaPosilku();
         wierszZListyPosilkow();
@@ -152,35 +142,9 @@ public class ViewMenageDay extends JFrame{
         panel.add(wyliczoneTluszcze);
     }
 
-    private void przyciskSzukaj() {
-
-        szukaj = new JButton("szukaj");
-        szukaj.setBounds(0, 200, 100, 25);
-        panel.add(szukaj);
-    }
-
-    private void przyciskDodaj() {
-        dodaj = new JButton("dodaj");
-        dodaj.setBounds(100, 200, 100, 25);
-        panel.add(dodaj);
-    }
-
-    private void przyciskUsun() {
-        usun = new JButton("usuń");
-        usun.setBounds(200, 200, 100, 25);
-        panel.add(usun);
-    }
-
-    private void przyciskAktualizuj() {
-
-        aktualizuj = new JButton("aktualizuj");
-        aktualizuj.setBounds(300, 200, 100, 25);
-        panel.add(aktualizuj);
-    }
-
     private void przyciskWroc() {
         wroc = new JButton("wróć");
-        wroc.setBounds(400, 200, 100, 25);
+        wroc.setBounds(100, 200, 100, 25);
         wroc.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -201,7 +165,7 @@ public class ViewMenageDay extends JFrame{
         panel.add(listaWyboruPosilku);
 
         dodajPosilek = new JButton("+");
-        dodajPosilek.setBounds(900,30,50,25);
+        dodajPosilek.setBounds(800,30,50,25);
         dodajPosilek.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -237,7 +201,7 @@ public class ViewMenageDay extends JFrame{
         panel.add(dodajPosilek);
 
         usunPosilek = new JButton("-");
-        usunPosilek.setBounds(950,30,50,25);
+        usunPosilek.setBounds(850,30,50,25);
         usunPosilek.addActionListener(new ActionListener() {
            @Override
             public void actionPerformed(ActionEvent e) {

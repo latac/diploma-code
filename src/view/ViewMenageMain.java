@@ -31,7 +31,6 @@ public class ViewMenageMain extends JFrame {
     private JButton danie;
     private JButton posilek;
     private JButton organizacja;
-    private JButton zapisz;
     private JButton poprzedniMiesiac;
     private JButton nastepnyMiesiac;
     private JLabel kcal;
@@ -78,7 +77,6 @@ public class ViewMenageMain extends JFrame {
         przyciskDanie();
         przyciskPosilek();
         przyciskNormy();
-        przyciskZapisz();
         wierszKcal();
         wierszBialka();
         wierszTluszczy();
@@ -142,12 +140,6 @@ public class ViewMenageMain extends JFrame {
 
     }
 
-    private void przyciskZapisz(){
-        zapisz = new JButton("zapisz");
-        zapisz.setBounds(600, 0, 100, 25);
-        panel.add(zapisz);
-
-    }
     private void wierszKcal() {
         kcal = new JLabel("kcal");
         kcal.setBounds(0, 40, 200, 25);

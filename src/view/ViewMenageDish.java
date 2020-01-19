@@ -32,9 +32,7 @@ public class ViewMenageDish extends JFrame {
     private JLabel podajProdukt;
     private JLabel podajIloscProdukty;
     private JTextField podanaNazwaDania;
-    private JTextField znajdzProdukt;
     private JTextField iloscProduktu;
-    private JButton szukaj;
     private JButton dodaj;
     private JButton usun;
     private JButton aktualizuj;
@@ -70,7 +68,6 @@ public class ViewMenageDish extends JFrame {
         wierszTluszczy();
         przyciskAktualizuj();
         przyciskDodaj();
-        przyciskSzukaj();
         przyciskUsun();
         przyciskWroc();
         wierszSzukaniaProduktu();
@@ -132,13 +129,6 @@ public class ViewMenageDish extends JFrame {
         wyliczoneTluszcze = new JLabel("0");
         wyliczoneTluszcze.setBounds(200, 130, 200, 25);
         panel.add(wyliczoneTluszcze);
-    }
-
-    private void przyciskSzukaj() {
-
-        szukaj = new JButton("szukaj");
-        szukaj.setBounds(0, 200, 100, 25);
-        panel.add(szukaj);
     }
 
     private void przyciskDodaj() {

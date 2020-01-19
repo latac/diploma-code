@@ -32,7 +32,6 @@ public class ViewMenageProduct extends JFrame {
     private JTextField podaneBialka;
     private JLabel tluszcze;
     private JTextField podaneTluszcze;
-    private JButton szukaj;
     private JButton dodaj;
     private JButton usun;
     private JButton aktualizuj;
@@ -61,7 +60,6 @@ public class ViewMenageProduct extends JFrame {
         wierszTluszczy();
         przyciskaktualizuj();
         przyciskDodaj();
-        przyciskSzukaj();
         przyciskUsun();
         przyciskWroc();
         wierszListyProduktow();
@@ -133,13 +131,6 @@ public class ViewMenageProduct extends JFrame {
         podaneTluszcze = new JTextField();
         podaneTluszcze.setBounds(200, 160, 200, 25);
         panel.add(podaneTluszcze);
-    }
-
-    private void przyciskSzukaj() {
-
-        szukaj = new JButton("szukaj");
-        szukaj.setBounds(0, 200, 100, 25);
-        panel.add(szukaj);
     }
 
     private void przyciskDodaj() {
