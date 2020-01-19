@@ -3,37 +3,11 @@
 title __VIEW's Class Diagram__\n
 
   namespace view {
-    class view.ViewMenageCreateAccount {
-        - email : JTextField
-        - haslo : JLabel
-        - imie : JLabel
-        - login : JLabel
-        - name : JTextField
-        - ok : JButton
-        - panel : JPanel
-        - password : JTextField
-        - powtorzHaslo : JLabel
-        - powtorzPassword : JTextField
-        - wroc : JButton
-        + ViewMenageCreateAccount()
-        - przyciskOK()
-        - przyciskWroc()
-        - wierszHasla()
-        - wierszImienia()
-        - wierszLoginu()
-    }
-  }
-  
-
-  namespace view {
     class view.ViewMenageDay {
-        - aktualizuj : JButton
         - bialka : JLabel
         - czyToSwieto : JCheckBox
-        - dodaj : JButton
         - dodajPosilek : JButton
         - kcal : JLabel
-        - listaDni : JList
         - listaPosilkow : JList
         - listaWyboruPosilku : JComboBox
         - model : DefaultListModel<String>
@@ -42,9 +16,7 @@ title __VIEW's Class Diagram__\n
         - podajPosilek : JLabel
         - posilkiDoCombo : List<Meal>
         - posilkiDoListy : List<Meal>
-        - szukaj : JButton
         - tluszcze : JLabel
-        - usun : JButton
         - usunPosilek : JButton
         - weglowodany : JLabel
         - wroc : JButton
@@ -53,15 +25,10 @@ title __VIEW's Class Diagram__\n
         - wyliczoneKcal : JLabel
         - wyliczoneTluszcze : JLabel
         - wyliczoneWeglowodany : JLabel
-        - znajdzPosilek : JTextField
         + UstawListe()
         + UstawTeksty()
         + ViewMenageDay()
         - checkboxCzyToSwieto()
-        - przyciskAktualizuj()
-        - przyciskDodaj()
-        - przyciskSzukaj()
-        - przyciskUsun()
         - przyciskWroc()
         - wierszBialka()
         - wierszKcal()
@@ -94,7 +61,6 @@ title __VIEW's Class Diagram__\n
         - podajProdukt : JLabel
         - podanaNazwaDania : JTextField
         - produkty : List<Product>
-        - szukaj : JButton
         - tluszcze : JLabel
         - usun : JButton
         - usunProdukt : JButton
@@ -104,12 +70,10 @@ title __VIEW's Class Diagram__\n
         - wyliczoneKcal : JLabel
         - wyliczoneTluszcze : JLabel
         - wyliczoneWeglowodany : JLabel
-        - znajdzProdukt : JTextField
         + UstawListe()
         ~ ViewMenageDish()
         - przyciskAktualizuj()
         - przyciskDodaj()
-        - przyciskSzukaj()
         - przyciskUsun()
         - przyciskWroc()
         - wierszBialka()
@@ -120,26 +84,6 @@ title __VIEW's Class Diagram__\n
         - wierszTluszczy()
         - wierszWeglowodanow()
         - wierszZListaProduktow()
-    }
-  }
-  
-
-  namespace view {
-    class view.ViewMenageLogin {
-        - email : JTextField
-        - haslo : JLabel
-        - login : JLabel
-        - niePamietamHasla : JButton
-        - panel : JPanel
-        - password : JTextField
-        - stworzKonto : JButton
-        - zaloguj : JButton
-        + ViewMenageLogin()
-        - przyciskOdzyskiwaniaHasla()
-        - przyciskStworzKonto()
-        - przyciskZaloguj()
-        - wierszHasla()
-        - wierszLoginu()
     }
   }
   
@@ -174,18 +118,17 @@ title __VIEW's Class Diagram__\n
         - wyliczoneTluszcze : JLabel
         - wyliczoneWeglowodany : JLabel
         - wyswietlanyMiesiac : JLabel
-        - zapisz : JButton
         + UstawAktualnaDekade()
         + UstawTeksty()
         + ViewMenageMain()
         + wyliczNormeDlaDekady()
         - WybierzNastepnyMiesiac()
         - WybierzPoprzedniMiesiac()
+        - akcjaZamknieciaOkna()
         - przyciskDanie()
         - przyciskNormy()
         - przyciskPosilek()
         - przyciskProdukt()
-        - przyciskZapisz()
         - przyciskiDni()
         - wierszBialka()
         - wierszKcal()
@@ -215,7 +158,6 @@ title __VIEW's Class Diagram__\n
         - panel : JPanel
         - podajNazweDania : JLabel
         - podanaNazwaPosilku : JTextField
-        - szukaj : JButton
         - tluszcze : JLabel
         - usun : JButton
         - usunDanie : JButton
@@ -225,12 +167,10 @@ title __VIEW's Class Diagram__\n
         - wyliczoneKcal : JLabel
         - wyliczoneTluszcze : JLabel
         - wyliczoneWeglowodany : JLabel
-        - znajdzDanie : JTextField
         + UstawListe()
         + ViewMenageMeal()
         - przyciskAktualizuj()
         - przyciskDodaj()
-        - przyciskSzukaj()
         - przyciskUsun()
         - przyciskWroc()
         - wierszBialka()
@@ -264,7 +204,6 @@ title __VIEW's Class Diagram__\n
         - podaneTluszcze : JTextField
         - podaneWeglowodany : JTextField
         - podanekcal : JTextField
-        - szukaj : JButton
         - tluszcze : JLabel
         - usun : JButton
         - wartoscReferencyjna : JLabel
@@ -273,7 +212,6 @@ title __VIEW's Class Diagram__\n
         + UstawListe()
         + ViewMenageProduct()
         - przyciskDodaj()
-        - przyciskSzukaj()
         - przyciskUsun()
         - przyciskWroc()
         - przyciskaktualizuj()
@@ -289,7 +227,7 @@ title __VIEW's Class Diagram__\n
   
 
   namespace view {
-    class view.ViewMenageWorker {
+    class view.ViewMenageNorma {
         - carbohydrates : JLabel
         - fat : JLabel
         - jednostkaOrganizacyjna : JComboBox
@@ -312,20 +250,18 @@ title __VIEW's Class Diagram__\n
   }
   
 
-  view.ViewMenageCreateAccount -up-|> javax.swing.JFrame
   view.ViewMenageDay -up-|> javax.swing.JFrame
   view.ViewMenageDay o-- Elements.Meal : wybranyPosilekZListy
   view.ViewMenageDish -up-|> javax.swing.JFrame
   view.ViewMenageDish o-- Elements.Product : produktDoUsuniecia
   view.ViewMenageDish o-- Elements.Dish : wybraneDanieZListy
-  view.ViewMenageLogin -up-|> javax.swing.JFrame
   view.ViewMenageMain -up-|> javax.swing.JFrame
   view.ViewMenageMeal -up-|> javax.swing.JFrame
   view.ViewMenageMeal o-- Elements.Dish : danieDoUsuniecia
   view.ViewMenageMeal o-- Elements.Meal : wybranyPosilekZListy
   view.ViewMenageProduct -up-|> javax.swing.JFrame
   view.ViewMenageProduct o-- Elements.Product : wybranyProduktZListy
-  view.ViewMenageWorker -up-|> javax.swing.JFrame
+  view.ViewMenageNorma -up-|> javax.swing.JFrame
 
 
 right footer

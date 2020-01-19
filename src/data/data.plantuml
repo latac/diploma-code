@@ -10,7 +10,6 @@ title __DATA's Class Diagram__\n
         {static} + DBUSER : String
         {static} - _instance : DataConnector
         + Day()
-        + Decade()
         + Dish()
         {static} + Instance()
         + Meal()
@@ -42,21 +41,6 @@ title __DATA's Class Diagram__\n
   
 
   namespace data {
-    class data.DecadeDatabase {
-        - connection : Connection
-        - query : String
-        - statement : PreparedStatement
-        + DecadeDatabase()
-        + Edytuj()
-        + PobierzDekade()
-        + PobierzDni()
-        + Usun()
-        + UtworzDekade()
-    }
-  }
-  
-
-  namespace data {
     class data.DishDatabase {
         - connection : Connection
         - query : String
@@ -70,12 +54,6 @@ title __DATA's Class Diagram__\n
         + Usun()
         + UsunProduktZDania()
         + UtworzDanie()
-    }
-  }
-  
-
-  namespace data {
-    class data.LoginDatabase {
     }
   }
   
@@ -100,12 +78,6 @@ title __DATA's Class Diagram__\n
   
 
   namespace data {
-    class data.OrganizationDatabase {
-    }
-  }
-  
-
-  namespace data {
     class data.ProduktDatabase {
         - connection : Connection
         - query : String
@@ -122,7 +94,6 @@ title __DATA's Class Diagram__\n
   
 
   data.DayDatabase o-- data.DataConnector : connector
-  data.DecadeDatabase o-- data.DataConnector : connector
   data.DishDatabase o-- data.DataConnector : connector
   data.MealDatabase o-- data.DataConnector : connector
   data.ProduktDatabase o-- data.DataConnector : connector

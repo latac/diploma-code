@@ -34,31 +34,6 @@ title __ELEMENTS's Class Diagram__\n
   
 
   namespace Elements {
-    class Elements.Decade {
-        - id : int
-        - name : String
-        + Decade()
-        + Decade()
-        + getId()
-        + getName()
-        + setId()
-        + setName()
-    }
-  }
-  
-
-  namespace Elements {
-    class Elements.DecadeParser {
-        + Edytuj()
-        + Usun()
-        + createSaveQuery()
-        + pobierzJeden()
-        + pobierzWszystkie()
-    }
-  }
-  
-
-  namespace Elements {
     class Elements.Dish {
         - id : int
         - name : String

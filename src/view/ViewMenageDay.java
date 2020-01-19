@@ -70,6 +70,7 @@ public class ViewMenageDay extends JFrame{
         panel.updateUI();
     }
 
+
     private void checkboxCzyToSwieto() {
         czyToSwieto = new JCheckBox("Święto");
         boolean toJestSwieto = DataConnector.Instance().Day().CzyJestemSwietem(new java.sql.Date(wybranyDzien.getTime()));
@@ -329,4 +330,92 @@ public class ViewMenageDay extends JFrame{
         UstawListe();
 
     }
+    public JPanel getPanel() {
+        return panel;
+    }
+
+    public JLabel getNazwaDania() {
+        return nazwaDania;
+    }
+
+    public JLabel getKcal() {
+        return kcal;
+    }
+
+    public JLabel getWyliczoneKcal() {
+        return wyliczoneKcal;
+    }
+
+    public JLabel getWeglowodany() {
+        return weglowodany;
+    }
+
+    public JLabel getWyliczoneWeglowodany() {
+        return wyliczoneWeglowodany;
+    }
+
+    public JLabel getBialka() {
+        return bialka;
+    }
+
+    public JLabel getWyliczoneBialka() {
+        return wyliczoneBialka;
+    }
+
+    public JLabel getTluszcze() {
+        return tluszcze;
+    }
+
+    public JLabel getWyliczoneTluszcze() {
+        return wyliczoneTluszcze;
+    }
+
+    public JLabel getPodajPosilek() {
+        return podajPosilek;
+    }
+
+    public JButton getWroc() {
+        return wroc;
+    }
+
+    public JButton getDodajPosilek() {
+        return dodajPosilek;
+    }
+
+    public JButton getUsunPosilek() {
+        return usunPosilek;
+    }
+
+    public JList getListaPosilkow() {
+        return listaPosilkow;
+    }
+
+    public Date getWybranyDzien() {
+        return wybranyDzien;
+    }
+
+    public JComboBox getListaWyboruPosilku() {
+        return listaWyboruPosilku;
+    }
+
+    public List<Meal> getPosilkiDoCombo() {
+        return posilkiDoCombo;
+    }
+
+    public List<Meal> getPosilkiDoListy() {
+        return posilkiDoListy;
+    }
+
+    public DefaultListModel<String> getModel() {
+        return model;
+    }
+
+    public Meal getWybranyPosilekZListy() {
+        return wybranyPosilekZListy;
+    }
+
+    public JCheckBox getCzyToSwieto() {
+        return czyToSwieto;
+    }
+
 }

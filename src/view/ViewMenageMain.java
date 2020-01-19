@@ -133,7 +133,7 @@ public class ViewMenageMain extends JFrame {
         organizacja.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new ViewMenageWorker().setVisible(true);
+                new ViewMenageNorma().setVisible(true);
             }
         });
         panel.add(organizacja);

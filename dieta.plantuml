@@ -15,18 +15,6 @@ title __DIETA's Class Diagram__\n
   
 
   namespace Elements {
-    class Elements.Decade {
-    }
-  }
-  
-
-  namespace Elements {
-    class Elements.DecadeParser {
-    }
-  }
-  
-
-  namespace Elements {
     class Elements.Dish {
     }
   }
@@ -87,31 +75,13 @@ title __DIETA's Class Diagram__\n
   
 
   namespace data {
-    class data.DecadeDatabase {
-    }
-  }
-  
-
-  namespace data {
     class data.DishDatabase {
     }
   }
   
 
   namespace data {
-    class data.LoginDatabase {
-    }
-  }
-  
-
-  namespace data {
     class data.MealDatabase {
-    }
-  }
-  
-
-  namespace data {
-    class data.OrganizationDatabase {
     }
   }
   
@@ -171,12 +141,6 @@ title __DIETA's Class Diagram__\n
   
 
   namespace view {
-    class view.ViewMenageCreateAccount {
-    }
-  }
-  
-
-  namespace view {
     class view.ViewMenageDay {
     }
   }
@@ -184,12 +148,6 @@ title __DIETA's Class Diagram__\n
 
   namespace view {
     class view.ViewMenageDish {
-    }
-  }
-  
-
-  namespace view {
-    class view.ViewMenageLogin {
     }
   }
   
@@ -213,30 +171,27 @@ title __DIETA's Class Diagram__\n
   
 
   namespace view {
-    class view.ViewMenageWorker {
+    class view.ViewMenageNorma {
     }
   }
   
 
   data.DayDatabase o-- data.DataConnector : connector
-  data.DecadeDatabase o-- data.DataConnector : connector
   data.DishDatabase o-- data.DataConnector : connector
   data.MealDatabase o-- data.DataConnector : connector
   data.ProduktDatabase o-- data.DataConnector : connector
-  view.ViewMenageCreateAccount -up-|> javax.swing.JFrame
   view.ViewMenageDay -up-|> javax.swing.JFrame
   view.ViewMenageDay o-- Elements.Meal : wybranyPosilekZListy
   view.ViewMenageDish -up-|> javax.swing.JFrame
   view.ViewMenageDish o-- Elements.Product : produktDoUsuniecia
   view.ViewMenageDish o-- Elements.Dish : wybraneDanieZListy
-  view.ViewMenageLogin -up-|> javax.swing.JFrame
   view.ViewMenageMain -up-|> javax.swing.JFrame
   view.ViewMenageMeal -up-|> javax.swing.JFrame
   view.ViewMenageMeal o-- Elements.Dish : danieDoUsuniecia
   view.ViewMenageMeal o-- Elements.Meal : wybranyPosilekZListy
   view.ViewMenageProduct -up-|> javax.swing.JFrame
   view.ViewMenageProduct o-- Elements.Product : wybranyProduktZListy
-  view.ViewMenageWorker -up-|> javax.swing.JFrame
+  view.ViewMenageNorma -up-|> javax.swing.JFrame
 
 
 right footer

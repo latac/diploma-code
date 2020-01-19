@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ViewMenageWorker extends JFrame  {
+public class ViewMenageNorma extends JFrame  {
 
     private JPanel panel;
     private JButton ok;
@@ -16,7 +16,7 @@ public class ViewMenageWorker extends JFrame  {
     private JLabel protein;
     private JLabel fat;
 
-    public ViewMenageWorker() {
+    public ViewMenageNorma() {
         super("Wybór normy");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 600, 600);
