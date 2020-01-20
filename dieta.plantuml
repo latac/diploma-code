@@ -94,7 +94,7 @@ title __DIETA's Class Diagram__\n
 
   namespace data {
     namespace Tests {
-      class data.Tests.DataConnectorTest {
+      class Tests.Tests.DataConnectorTest {
       }
     }
   }
@@ -102,7 +102,7 @@ title __DIETA's Class Diagram__\n
 
   namespace data {
     namespace Tests {
-      class data.Tests.DayDatabaseTest {
+      class Tests.Tests.DayDatabaseTest {
       }
     }
   }
@@ -110,7 +110,7 @@ title __DIETA's Class Diagram__\n
 
   namespace data {
     namespace Tests {
-      class data.Tests.DecadeDatabaseTest {
+      class Tests.Tests.DecadeDatabaseTest {
       }
     }
   }
@@ -118,7 +118,7 @@ title __DIETA's Class Diagram__\n
 
   namespace data {
     namespace Tests {
-      class data.Tests.DishDatabaseTest {
+      class Tests.Tests.DishDatabaseTest {
       }
     }
   }
@@ -126,7 +126,7 @@ title __DIETA's Class Diagram__\n
 
   namespace data {
     namespace Tests {
-      class data.Tests.MealDatabaseTest {
+      class Tests.Tests.MealDatabaseTest {
       }
     }
   }
@@ -134,7 +134,7 @@ title __DIETA's Class Diagram__\n
 
   namespace data {
     namespace Tests {
-      class data.Tests.ProduktDatabaseTest {
+      class Tests.Tests.ProduktDatabaseTest {
       }
     }
   }

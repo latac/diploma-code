@@ -1,4 +1,4 @@
-package view;
+package Tests.View;
 
 import static org.easymock.EasyMock.anyInt;
 import static org.easymock.EasyMock.expect;
@@ -20,6 +20,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.powermock.api.mockito.PowerMockito;
+import view.ViewMenageDay;
 
 import javax.swing.*;
 import javax.swing.event.AncestorEvent;
