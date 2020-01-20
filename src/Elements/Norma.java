@@ -18,7 +18,7 @@ public class Norma {
     public boolean czyProteinWPrzedziale(float protein) { return this.protein - marginesBledu*this.protein < protein && protein < this.protein + marginesBledu*this.protein; }
     public boolean czyCarbohydratesWPrzedziale(float carbohydrates) { return this.carbohydrates - marginesBledu*this.carbohydrates < carbohydrates && carbohydrates < this.carbohydrates + marginesBledu*this.carbohydrates; }
     public boolean czyFatWPrzedziale(float fat) {
-        return this.fat - marginesBledu*this.fat < fat && kcal < this.fat + marginesBledu*this.fat;
+        return this.fat - marginesBledu*this.fat < fat && fat < this.fat + marginesBledu*this.fat;
     }
 
 
