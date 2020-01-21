@@ -5,8 +5,6 @@ import static org.easymock.EasyMock.expect;
 import static org.powermock.api.easymock.PowerMock.createMock;
 
 import data.DayDatabase;
-import junit.framework.Assert;
-import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
 import Elements.Dish;
 import Elements.Meal;
@@ -16,10 +14,7 @@ import data.DishDatabase;
 import data.ProduktDatabase;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.powermock.api.mockito.PowerMockito;
 import view.ViewMenageDay;
 
 import javax.swing.*;
@@ -33,12 +28,6 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.whenNew;
-import static org.powermock.configuration.ConfigurationType.PowerMock;
 
 class ViewMenageDayTest {
     private Date dzien;
@@ -334,56 +323,67 @@ class ViewMenageDayTest {
         usunPosilek.setBounds(850, 30, 50, 25);
         assertEquals(vmd.getUsunPosilek().getBounds(), usunPosilek.getBounds());
     }
+
     @Test
-    void sprawdzanieKoloruCzerwonego1(){
-        vmd.UstawTeksty(1,1,1,1);
+    void sprawdzanieKoloruCzerwonego1() {
+        vmd.UstawTeksty(1, 1, 1, 1);
         assertEquals(vmd.getWyliczoneKcal().getForeground(), Color.RED);
     }
+
     @Test
-    void sprawdzanieKoloruZielonego1(){
-        vmd.UstawTeksty(980,36.75f,134.75f,32.67f);
+    void sprawdzanieKoloruZielonego1() {
+        vmd.UstawTeksty(980, 36.75f, 134.75f, 32.67f);
         assertEquals(vmd.getWyliczoneKcal().getForeground(), Color.GREEN);
     }
+
     @Test
-    void sprawdzanieKoloruCzerwonego2(){
-        vmd.UstawTeksty(1,1,1,1);
+    void sprawdzanieKoloruCzerwonego2() {
+        vmd.UstawTeksty(1, 1, 1, 1);
         assertEquals(vmd.getWyliczoneBialka().getForeground(), Color.RED);
     }
+
     @Test
-    void sprawdzanieKoloruZielonego2(){
-        vmd.UstawTeksty(980,36.75f,134.75f,32.67f);
+    void sprawdzanieKoloruZielonego2() {
+        vmd.UstawTeksty(980, 36.75f, 134.75f, 32.67f);
         assertEquals(vmd.getWyliczoneBialka().getForeground(), Color.GREEN);
     }
+
     @Test
-    void sprawdzanieKoloruCzerwonego3(){
-        vmd.UstawTeksty(1,1,1,1);
+    void sprawdzanieKoloruCzerwonego3() {
+        vmd.UstawTeksty(1, 1, 1, 1);
         assertEquals(vmd.getWyliczoneWeglowodany().getForeground(), Color.RED);
     }
+
     @Test
-    void sprawdzanieKoloruZielonego3(){
-        vmd.UstawTeksty(980,36.75f,134.75f,32.67f);
+    void sprawdzanieKoloruZielonego3() {
+        vmd.UstawTeksty(980, 36.75f, 134.75f, 32.67f);
         assertEquals(vmd.getWyliczoneWeglowodany().getForeground(), Color.GREEN);
     }
+
     @Test
-    void sprawdzanieKoloruCzerwonego4(){
-        vmd.UstawTeksty(1,1,1,1);
+    void sprawdzanieKoloruCzerwonego4() {
+        vmd.UstawTeksty(1, 1, 1, 1);
         assertEquals(vmd.getWyliczoneTluszcze().getForeground(), Color.RED);
     }
+
     @Test
-    void sprawdzanieKoloruZielonego4(){
-        vmd.UstawTeksty(980,36.75f,134.75f,32.67f);
+    void sprawdzanieKoloruZielonego4() {
+        vmd.UstawTeksty(980, 36.75f, 134.75f, 32.67f);
         assertEquals(vmd.getWyliczoneTluszcze().getForeground(), Color.GREEN);
     }
+
     @Test
-    void ustawListe(){
+    void ustawListe() {
         assertNotNull(vmd.getListaPosilkow());
     }
+
     @Test
-    void posilkiDoListy(){
+    void posilkiDoListy() {
         assertNotNull(vmd.getPosilkiDoListy());
     }
+
     @Test
-    void posilkiDoCombo(){
+    void posilkiDoCombo() {
         assertNotNull(vmd.getPosilkiDoCombo());
     }
 }
