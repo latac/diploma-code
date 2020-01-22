@@ -49,7 +49,7 @@ public class ViewMenageDish extends JFrame {
     private Product produktDoUsuniecia;
     private List<Product> listaProduktowWDaniu;
 
-    ViewMenageDish() {
+    public ViewMenageDish() {
         super("Danie");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 1100, 600);
@@ -100,7 +100,7 @@ public class ViewMenageDish extends JFrame {
     }
 
     private void wierszWeglowodanow() {
-        weglowodany = new JLabel("weglowodany");
+        weglowodany = new JLabel("węglowodany");
         weglowodany.setBounds(0, 70, 200, 25);
         panel.add(weglowodany);
 
@@ -180,7 +180,6 @@ public class ViewMenageDish extends JFrame {
                     wybraneDanieZListy.setName(podanaNazwaDania.getText());
 
                     DataConnector.Instance().Dish().Edytuj(wybraneDanieZListy);
-                    //arrayOfProducts.remove(wybranyProduktZListy);
                     listaDan.setListData(arrayOfDish.toArray());
                 }
             }
@@ -213,9 +212,6 @@ public class ViewMenageDish extends JFrame {
         iloscProduktu.setBounds(800, 30, 50,25);
         panel.add(iloscProduktu);
 
-/*        znajdzProdukt = new JTextField();
-        znajdzProdukt.setBounds(600, 30, 200, 25);
-        panel.add(znajdzProdukt);*/
 
 
         listaWyboruProduktow = new JComboBox<>(produkty.toArray());
@@ -401,4 +397,119 @@ public class ViewMenageDish extends JFrame {
         panel.updateUI();
     }
 
+    public JPanel getPanel() {
+        return panel;
+    }
+
+    public JLabel getNazwaDania() {
+        return nazwaDania;
+    }
+
+    public JLabel getKcal() {
+        return kcal;
+    }
+
+    public JLabel getWyliczoneKcal() {
+        return wyliczoneKcal;
+    }
+
+    public JLabel getWeglowodany() {
+        return weglowodany;
+    }
+
+    public JLabel getWyliczoneWeglowodany() {
+        return wyliczoneWeglowodany;
+    }
+
+    public JLabel getBialka() {
+        return bialka;
+    }
+
+    public JLabel getWyliczoneBialka() {
+        return wyliczoneBialka;
+    }
+
+    public JLabel getTluszcze() {
+        return tluszcze;
+    }
+
+    public JLabel getWyliczoneTluszcze() {
+        return wyliczoneTluszcze;
+    }
+
+    public JLabel getPodajProdukt() {
+        return podajProdukt;
+    }
+
+    public JLabel getPodajIloscProdukty() {
+        return podajIloscProdukty;
+    }
+
+    public JTextField getPodanaNazwaDania() {
+        return podanaNazwaDania;
+    }
+
+    public JTextField getIloscProduktu() {
+        return iloscProduktu;
+    }
+
+    public JButton getDodaj() {
+        return dodaj;
+    }
+
+    public JButton getUsun() {
+        return usun;
+    }
+
+    public JButton getAktualizuj() {
+        return aktualizuj;
+    }
+
+    public JButton getWroc() {
+        return wroc;
+    }
+
+    public JButton getDodajProdukt() {
+        return dodajProdukt;
+    }
+
+    public JButton getUsunProdukt() {
+        return usunProdukt;
+    }
+
+    public JList getListaDan() {
+        return listaDan;
+    }
+
+    public List<Dish> getArrayOfDish() {
+        return arrayOfDish;
+    }
+
+    public JList getListaProduktow() {
+        return listaProduktow;
+    }
+
+    public JComboBox getListaWyboruProduktow() {
+        return listaWyboruProduktow;
+    }
+
+    public List<Product> getProdukty() {
+        return produkty;
+    }
+
+    public DefaultListModel<String> getModel() {
+        return model;
+    }
+
+    public Dish getWybraneDanieZListy() {
+        return wybraneDanieZListy;
+    }
+
+    public Product getProduktDoUsuniecia() {
+        return produktDoUsuniecia;
+    }
+
+    public List<Product> getListaProduktowWDaniu() {
+        return listaProduktowWDaniu;
+    }
 }

@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="dieta:jar">
+  <artifact type="jar" name="dieta:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/dieta_jar</output-path>
     <root id="archive" name="dieta.jar">
       <element id="module-output" name="dieta" />
