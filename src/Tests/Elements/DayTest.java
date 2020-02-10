@@ -41,8 +41,5 @@ class DayTest {
         assertNull(d.getName());
     }
 
-    @Test
-    void getId() {
-        assertNull(d.getName());
-    }
+
 }

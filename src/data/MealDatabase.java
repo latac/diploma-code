@@ -20,7 +20,7 @@ public class MealDatabase {
         this.connector = connector;
     }
 
-    public Meal PobierzPosilek(int id) {
+/*    public Meal PobierzPosilek(int id) {
         String query = new MealParser().pobierzJeden();
         Meal pobranyPosilek = new Meal();
         try {
@@ -46,7 +46,7 @@ public class MealDatabase {
         }
 
         return pobranyPosilek;
-    }
+    }*/
 
     public List<Meal> PobierzPosilki() {
         String query = new MealParser().pobierzWszystkie();

@@ -2,7 +2,6 @@ package data;
 
 import Elements.Product;
 import Elements.ProduktParser;
-import org.w3c.dom.ls.LSOutput;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,13 +15,13 @@ public class ProduktDatabase {
     //obiekt pozwalający tworzyć nowe wyrażenia SQL
     private PreparedStatement statement;
     //zapytanie SQL
-    private String query;
+    //private String query;
 
     public ProduktDatabase(DataConnector connector) {
         this.connector = connector;
     }
 
-    public Product PobierzProdukt(int id) {
+/*    public Product PobierzProdukt(int id) {
         String query = new ProduktParser().pobierzJeden();
         Product pobranyProdukt = new Product();
         try {
@@ -54,7 +53,7 @@ public class ProduktDatabase {
         }
 
         return pobranyProdukt;
-    }
+    }*/
 
     public List<Product> PobierzProdukty() {
         String query = new ProduktParser().pobierzWszystkie();

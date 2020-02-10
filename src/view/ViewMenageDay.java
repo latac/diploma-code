@@ -146,12 +146,7 @@ public class ViewMenageDay extends JFrame{
     private void przyciskWroc() {
         wroc = new JButton("wróć");
         wroc.setBounds(100, 200, 100, 25);
-        wroc.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        wroc.addActionListener(e -> dispose());
         panel.add(wroc);
     }
 
@@ -211,10 +206,10 @@ public class ViewMenageDay extends JFrame{
 
                     List<Dish> dania = DataConnector.Instance().Dish().PobierzDaniaZPosilku(wybranyPosilekZListy.getId());
 
-                    float sumaKalorii = Float.valueOf(wyliczoneKcal.getText().replace(",", "."));
-                    float sumaBialek = Float.valueOf(wyliczoneBialka.getText().replace(",", "."));
-                    float sumaWeglowodanow = Float.valueOf(wyliczoneWeglowodany.getText().replace(",", "."));
-                    float sumaTluszczy = Float.valueOf(wyliczoneTluszcze.getText().replace(",", "."));
+                    float sumaKalorii = Float.parseFloat(wyliczoneKcal.getText().replace(",", "."));
+                    float sumaBialek = Float.parseFloat(wyliczoneBialka.getText().replace(",", "."));
+                    float sumaWeglowodanow = Float.parseFloat(wyliczoneWeglowodany.getText().replace(",", "."));
+                    float sumaTluszczy = Float.parseFloat(wyliczoneTluszcze.getText().replace(",", "."));
 
                     for (Dish d : dania) {
                         List<Product> produkty = DataConnector.Instance().Produkty().PobierzProduktyZDania(d.getId());

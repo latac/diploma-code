@@ -41,7 +41,7 @@ class ViewMenageDayTest {
 
     @BeforeEach
     void setUp() {
-        dzien = new Date(2020, Calendar.FEBRUARY, 1);
+        dzien = new Date(120, Calendar.FEBRUARY, 1);
         listener = new AncestorListener() {
             @Override
             public void ancestorAdded(AncestorEvent event) {
@@ -125,7 +125,7 @@ class ViewMenageDayTest {
 
     @Test
     void iloscKcal() {
-        assertNotEquals("0,000", vmd.getWyliczoneKcal().getText());
+        assertEquals("0,000", vmd.getWyliczoneKcal().getText());
     }
 
     @Test
@@ -154,7 +154,7 @@ class ViewMenageDayTest {
 
     @Test
     void iloscWeglowodanow() {
-        assertNotEquals("0,000", vmd.getWyliczoneWeglowodany().getText());
+        assertEquals("0,000", vmd.getWyliczoneWeglowodany().getText());
     }
 
     @Test
@@ -183,7 +183,7 @@ class ViewMenageDayTest {
 
     @Test
     void iloscBialek() {
-        assertNotEquals("0,000", vmd.getWyliczoneBialka().getText());
+        assertEquals("0,000", vmd.getWyliczoneBialka().getText());
     }
 
     @Test
@@ -212,15 +212,15 @@ class ViewMenageDayTest {
 
     @Test
     void iloscTluszczy() {
-        assertNotEquals("0,000", vmd.getWyliczoneTluszcze().getText());
+        assertEquals("0,000", vmd.getWyliczoneTluszcze().getText());
     }
 
     @Test
     void polozenieIlosciTluszczy() {
         JLabel wyliczoneTluszczu = new JLabel();
         wyliczoneTluszczu.setBounds(200, 130, 200, 25);
-        assertEquals(vmd.getWyliczoneTluszcze().getBounds(), wyliczoneTluszczu.getBounds());
-    }
+    assertEquals(vmd.getWyliczoneTluszcze().getBounds(), wyliczoneTluszczu.getBounds());
+}
 
     @Test
     void wroc() {
@@ -263,49 +263,7 @@ class ViewMenageDayTest {
         assertEquals(vmd.getListaWyboruPosilku().getBounds(), listaPosilkow.getBounds());
     }
 
-    // @Test
-    void testowanieKliknieciaDodaj() throws Exception {
-        float a = 2.0f;
-        float b = 3.0f;
-        Product p1 = new Product();
-        p1.setKcal(a);
-        Product p2 = new Product();
-        p2.setKcal(b);
-        List<Product> listaProduktow = new ArrayList<>();
-        listaProduktow.add(p1);
-        listaProduktow.add(p2);
 
-        List<Dish> listaDish = new ArrayList<Dish>();
-
-        listaDish.add(new Dish());
-        listaDish.add(new Dish());
-
-        List<Meal> listaPosilkow = new ArrayList<Meal>();
-        listaPosilkow.add(new Meal());
-
-        vmd.getListaPosilkow().setListData(listaPosilkow.toArray());
-
-        dc = createMock(DataConnector.class);
-        try {
-            Date date = new Date();
-            dishDB = createMock(DishDatabase.class);
-            expect(dishDB.PobierzDaniaZPosilku(anyInt())).andReturn(listaDish);
-            productDB = createMock(ProduktDatabase.class);
-            DayDatabase dayDB = createMock(DayDatabase.class);
-
-            expect(dc.Dish()).andReturn(dishDB);
-            expect(dc.Day()).andReturn(dayDB);
-
-            expect(dc.Produkty()).andReturn(productDB);
-            expect(productDB.PobierzProduktyZDania(anyInt())).andReturn(listaProduktow);
-
-            vmd.getDodajPosilek().doClick();
-            assertEquals(vmd.getWyliczoneKcal().getText(), "409,500");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
 
     @Test
     void przyciskUsunPosilek() {

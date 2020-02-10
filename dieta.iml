@@ -46,5 +46,17 @@
     <orderEntry type="library" name="org.powermock:powermock-api-mockito:1.7.4" level="project" />
     <orderEntry type="library" name="org.easymock:easymock:4.1" level="project" />
     <orderEntry type="library" name="org.powermock:powermock-api-easymock:2.0.4" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/JAutoItX-3.3.10.2-1.0.0-alpha-all.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/Downloads/JAutoItX-3.3.10.2-1.0.0-alpha-all.jar!/src" />
+          <root url="jar://$USER_HOME$/Downloads/JAutoItX-3.3.10.2-1.0.0-alpha-all.jar!/test" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>

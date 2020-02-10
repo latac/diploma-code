@@ -57,14 +57,13 @@ public class ViewMenageMain extends JFrame {
     Date aktualnaData;
 
     public ViewMenageMain() {
-        super("Jadłospis");
+        super("Dieta");
 
 
         Calendar c = Calendar.getInstance();
         c.set(2020, 0, 1, 0, 0);
         poczatekProgramu =c.getTime();
-                aktualnaData = new Date();
-        miesiac = new ArrayList<>();
+                aktualnaData = new Date();        miesiac = new ArrayList<>();
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 850, 600);

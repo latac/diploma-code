@@ -2,51 +2,7 @@
 
 title __ELEMENTS's Class Diagram__\n
 
-  namespace Elements {
-    class Elements.Day {
-        - id : int
-        - name : String
-        + Day()
-        + Day()
-        + getId()
-        + getName()
-        + setId()
-        + setName()
-    }
-  }
-  
 
-  namespace Elements {
-    class Elements.DayParser {
-        + CzyJestemSwietem()
-        + DodajSwieto()
-        + Edytuj()
-        + IleSwiat()
-        + Usun()
-        + UsunSwieto()
-        + createSaveQuery()
-        + dodajPosilekDoDnia()
-        + pobierzJeden()
-        + pobierzWszystkie()
-        + usunPosilekZDnia()
-    }
-  }
-  
-
-  namespace Elements {
-    class Elements.Dish {
-        - id : int
-        - name : String
-        + Dish()
-        + Dish()
-        + getId()
-        + getName()
-        + setId()
-        + setName()
-        + toString()
-    }
-  }
-  
 
   namespace Elements {
     class Elements.DishParser {
@@ -76,7 +32,22 @@ title __ELEMENTS's Class Diagram__\n
         + toString()
     }
   }
-  
+  namespace Elements {
+      class Elements.DayParser {
+          + CzyJestemSwietem()
+          + DodajSwieto()
+          + Edytuj()
+          + IleSwiat()
+          + Usun()
+          + UsunSwieto()
+          + createSaveQuery()
+          + dodajPosilekDoDnia()
+          + pobierzJeden()
+          + pobierzWszystkie()
+          + usunPosilekZDnia()
+      }
+    }
+
 
   namespace Elements {
     class Elements.MealParser {
@@ -91,6 +62,48 @@ title __ELEMENTS's Class Diagram__\n
     }
   }
   
+
+  namespace Elements {
+    class Elements.ProduktParser {
+        + Edytuj()
+        + PobierzProduktyZDania()
+        + Usun()
+        + UsunPowiazane()
+        + createSaveQuery()
+        + pobierzJeden()
+        + pobierzWszystkie()
+    }
+  }
+  namespace Elements {
+      class Elements.Day {
+          - id : int
+          - name : String
+          + Day()
+          + Day()
+          + getId()
+          + getName()
+          + setId()
+          + setName()
+      }
+    }
+
+
+
+
+    namespace Elements {
+      class Elements.Dish {
+          - id : int
+          - name : String
+          + Dish()
+          + Dish()
+          + getId()
+          + getName()
+          + setId()
+          + setName()
+          + toString()
+      }
+    }
+
 
   namespace Elements {
     class Elements.Norma {
@@ -145,19 +158,6 @@ title __ELEMENTS's Class Diagram__\n
         + setUnitOfMeasurement()
         + toString()
         + wyliczIloscProduktu()
-    }
-  }
-  
-
-  namespace Elements {
-    class Elements.ProduktParser {
-        + Edytuj()
-        + PobierzProduktyZDania()
-        + Usun()
-        + UsunPowiazane()
-        + createSaveQuery()
-        + pobierzJeden()
-        + pobierzWszystkie()
     }
   }
   

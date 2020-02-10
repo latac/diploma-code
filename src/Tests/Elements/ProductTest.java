@@ -139,7 +139,6 @@ class ProductTest {
     void testToStringAmount0() {
         String nazwa = "NazwaProduktu";
         p.setName(nazwa);
-        p.setAmountOfProduct(0);
         assertEquals(nazwa, p.toString());
     }
 
