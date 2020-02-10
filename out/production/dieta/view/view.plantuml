@@ -1,0 +1,274 @@
+@startuml
+
+title __VIEW's Class Diagram__\n
+
+  namespace view {
+    class view.ViewMenageDay {
+        - bialka : JLabel
+        - czyToSwieto : JCheckBox
+        - dodajPosilek : JButton
+        - kcal : JLabel
+        - listaPosilkow : JList
+        - listaWyboruPosilku : JComboBox
+        - model : DefaultListModel<String>
+        - nazwaDania : JLabel
+        - panel : JPanel
+        - podajPosilek : JLabel
+        - posilkiDoCombo : List<Meal>
+        - posilkiDoListy : List<Meal>
+        - tluszcze : JLabel
+        - usunPosilek : JButton
+        - weglowodany : JLabel
+        - wroc : JButton
+        - wybranyDzien : Date
+        - wyliczoneBialka : JLabel
+        - wyliczoneKcal : JLabel
+        - wyliczoneTluszcze : JLabel
+        - wyliczoneWeglowodany : JLabel
+        + UstawListe()
+        + UstawTeksty()
+        + ViewMenageDay()
+        - checkboxCzyToSwieto()
+        - przyciskWroc()
+        - wierszBialka()
+        - wierszKcal()
+        - wierszNumeruDnia()
+        - wierszSzukaniaPosilku()
+        - wierszTluszczy()
+        - wierszWeglowodanow()
+        - wierszZListyPosilkow()
+    }
+  }
+  
+
+  namespace view {
+    class view.ViewMenageDish {
+        - aktualizuj : JButton
+        - arrayOfDish : List<Dish>
+        - bialka : JLabel
+        - dodaj : JButton
+        - dodajProdukt : JButton
+        - iloscProduktu : JTextField
+        - kcal : JLabel
+        - listaDan : JList
+        - listaProduktow : JList
+        - listaProduktowWDaniu : List<Product>
+        - listaWyboruProduktow : JComboBox
+        - model : DefaultListModel<String>
+        - nazwaDania : JLabel
+        - panel : JPanel
+        - podajIloscProdukty : JLabel
+        - podajProdukt : JLabel
+        - podanaNazwaDania : JTextField
+        - produkty : List<Product>
+        - tluszcze : JLabel
+        - usun : JButton
+        - usunProdukt : JButton
+        - weglowodany : JLabel
+        - wroc : JButton
+        - wyliczoneBialka : JLabel
+        - wyliczoneKcal : JLabel
+        - wyliczoneTluszcze : JLabel
+        - wyliczoneWeglowodany : JLabel
+        + UstawListe()
+        ~ ViewMenageDish()
+        - przyciskAktualizuj()
+        - przyciskDodaj()
+        - przyciskUsun()
+        - przyciskWroc()
+        - wierszBialka()
+        - wierszKcal()
+        - wierszListyDan()
+        - wierszNazwyDania()
+        - wierszSzukaniaProduktu()
+        - wierszTluszczy()
+        - wierszWeglowodanow()
+        - wierszZListaProduktow()
+    }
+  }
+  
+
+  namespace view {
+    class view.ViewMenageMain {
+        ~ aktualnaData : Date
+        - bialka : JLabel
+        - czwartek : JLabel
+        - danie : JButton
+        - kcal : JLabel
+        - koniecDekady : Date
+        - miesiac : ArrayList<JButton>
+        - nastepnyMiesiac : JButton
+        - niedziela : JLabel
+        - organizacja : JButton
+        - panel : JPanel
+        - piatek : JLabel
+        - poczatekDekady : Date
+        - poczatekProgramu : Date
+        - poniedzialek : JLabel
+        - poprzedniMiesiac : JButton
+        - posilek : JButton
+        - produkt : JButton
+        - sobota : JLabel
+        - sroda : JLabel
+        - tluszcze : JLabel
+        - weglowodany : JLabel
+        - wtorek : JLabel
+        - wyliczoneBialka : JLabel
+        - wyliczoneKcal : JLabel
+        - wyliczoneTluszcze : JLabel
+        - wyliczoneWeglowodany : JLabel
+        - wyswietlanyMiesiac : JLabel
+        + UstawAktualnaDekade()
+        + UstawTeksty()
+        + ViewMenageMain()
+        + wyliczNormeDlaDekady()
+        - WybierzNastepnyMiesiac()
+        - WybierzPoprzedniMiesiac()
+        - akcjaZamknieciaOkna()
+        - przyciskDanie()
+        - przyciskNormy()
+        - przyciskPosilek()
+        - przyciskProdukt()
+        - przyciskiDni()
+        - wierszBialka()
+        - wierszKcal()
+        - wierszNazwDni()
+        - wierszTluszczy()
+        - wierszWeglowodanow()
+        - wierszZmianyMiesiaca()
+    }
+  }
+  
+
+  namespace view {
+    class view.ViewMenageMeal {
+        - aktualizuj : JButton
+        - arrayOfMeal : List<Meal>
+        - bialka : JLabel
+        - dania : List<Dish>
+        - dodaj : JButton
+        - dodajDanie : JButton
+        - kcal : JLabel
+        - listaDan : JList
+        - listaDanWPosilku : List<Dish>
+        - listaPosilkow : JList
+        - listaWyboruDania : JComboBox
+        - model : DefaultListModel<String>
+        - nazwaPosilku : JLabel
+        - panel : JPanel
+        - podajNazweDania : JLabel
+        - podanaNazwaPosilku : JTextField
+        - tluszcze : JLabel
+        - usun : JButton
+        - usunDanie : JButton
+        - weglowodany : JLabel
+        - wroc : JButton
+        - wyliczoneBialka : JLabel
+        - wyliczoneKcal : JLabel
+        - wyliczoneTluszcze : JLabel
+        - wyliczoneWeglowodany : JLabel
+        + UstawListe()
+        + ViewMenageMeal()
+        - przyciskAktualizuj()
+        - przyciskDodaj()
+        - przyciskUsun()
+        - przyciskWroc()
+        - wierszBialka()
+        - wierszKcal()
+        - wierszListyPosilkow()
+        - wierszNazwyPosilku()
+        - wierszSzukaniaDania()
+        - wierszTluszczy()
+        - wierszWeglowodanow()
+        - wierszZListaDan()
+    }
+  }
+  
+
+  namespace view {
+    class view.ViewMenageProduct {
+        ~ model : DefaultListModel<String>
+        - aktualizuj : JButton
+        - arrayOfProducts : List<Product>
+        - bialka : JLabel
+        - dodaj : JButton
+        - jednostka : JComboBox
+        - jednostki : String[]
+        - kcal : JLabel
+        - listaProduktow : JList
+        - nazwaProduktu : JLabel
+        - panel : JPanel
+        - podanaNazwaProduktu : JTextField
+        - podanaWartoscReferencyjna : JTextField
+        - podaneBialka : JTextField
+        - podaneTluszcze : JTextField
+        - podaneWeglowodany : JTextField
+        - podanekcal : JTextField
+        - tluszcze : JLabel
+        - usun : JButton
+        - wartoscReferencyjna : JLabel
+        - weglowodany : JLabel
+        - wroc : JButton
+        + UstawListe()
+        + ViewMenageProduct()
+        - przyciskDodaj()
+        - przyciskUsun()
+        - przyciskWroc()
+        - przyciskaktualizuj()
+        - wierszBialka()
+        - wierszKcal()
+        - wierszListyProduktow()
+        - wierszNazwyProduktu()
+        - wierszTluszczy()
+        - wierszWartosciReferencyjnej()
+        - wierszWeglowodanow()
+    }
+  }
+  
+
+  namespace view {
+    class view.ViewMenageNorma {
+        - carbohydrates : JLabel
+        - fat : JLabel
+        - jednostkaOrganizacyjna : JComboBox
+        - jednostkiOrganizacyjne : String[]
+        - kcal : JLabel
+        - ok : JButton
+        - panel : JPanel
+        - protein : JLabel
+        - wroc : JButton
+        + ViewMenageWorker()
+        - przyciskOK()
+        - przyciskWroc()
+        - wierszBialek()
+        - wierszInformacji()
+        - wierszKcal()
+        - wierszTluszczy()
+        - wierszWeglowodanow()
+        - wyborJednostkiOrganizacyjnej()
+    }
+  }
+  
+
+  view.ViewMenageDay -up-|> javax.swing.JFrame
+  view.ViewMenageDay o-- Elements.Meal : wybranyPosilekZListy
+  view.ViewMenageDish -up-|> javax.swing.JFrame
+  view.ViewMenageDish o-- Elements.Product : produktDoUsuniecia
+  view.ViewMenageDish o-- Elements.Dish : wybraneDanieZListy
+  view.ViewMenageMain -up-|> javax.swing.JFrame
+  view.ViewMenageMeal -up-|> javax.swing.JFrame
+  view.ViewMenageMeal o-- Elements.Dish : danieDoUsuniecia
+  view.ViewMenageMeal o-- Elements.Meal : wybranyPosilekZListy
+  view.ViewMenageProduct -up-|> javax.swing.JFrame
+  view.ViewMenageProduct o-- Elements.Product : wybranyProduktZListy
+  view.ViewMenageNorma -up-|> javax.swing.JFrame
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml
